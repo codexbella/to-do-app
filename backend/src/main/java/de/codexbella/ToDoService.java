@@ -1,15 +1,30 @@
 package de.codexbella;
 
-import java.util.Set;
+import java.util.List;
 
 public class ToDoService {
-    private ToDoRepository toDoRepo;
+    private ToDoRepository toDoRepository;
 
     public ToDoService(ToDoRepository toDoRepo) {
-        this.toDoRepo = toDoRepo;
+        this.toDoRepository = toDoRepo;
     }
 
-    public Set<ToDo> getToDos() {
-        return toDoRepo.getToDos();
+    public List<ToDo> getToDos() {
+        return toDoRepository.getToDoListe();
+    }
+
+    public List<ToDo> getMatchingToDoItems(String searchTerm) {
+        return toDoRepository.getMatchingToDoItems(searchTerm);
+    }
+
+    public void setAsDone(ToDo toDo) {
+        toDo.setDone(true);
+    }
+
+    @Override
+    public String toString() {
+        return "ToDoService{" +
+                "toDoRepo=" + toDoRepository +
+                '}';
     }
 }
