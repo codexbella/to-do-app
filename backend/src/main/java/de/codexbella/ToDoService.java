@@ -9,6 +9,13 @@ public class ToDoService {
         this.toDoRepository = toDoRepo;
     }
 
+    @Override
+    public String toString() {
+        return "ToDoService{" +
+                "toDoRepo=" + toDoRepository +
+                '}';
+    }
+
     public List<ToDoItem> getToDos() {
         return toDoRepository.getToDoList();
     }
@@ -21,14 +28,17 @@ public class ToDoService {
         toDo.setDone(true);
     }
 
-    @Override
-    public String toString() {
-        return "ToDoService{" +
-                "toDoRepo=" + toDoRepository +
-                '}';
-    }
-
     public List<ToDoItem> getAllItemsNotDone() {
         return toDoRepository.getAllItemsNotDone();
     }
+
+    public boolean addItem(ToDoItem toDoItem) {
+        return toDoRepository.addItem(toDoItem);
+    }
+
+    public void setTitle(ToDoItem toDoItem, String title) {
+        toDoRepository.setTitle(toDoItem, title);
+    }
 }
+//TODO Ordering the list
+//TODO Adding and then filtering with distinct (stream)

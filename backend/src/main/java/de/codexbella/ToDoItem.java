@@ -15,17 +15,22 @@ public class ToDoItem {
         this.taskDescription = taskDescription;
         this.done = false;
     }
-
     public ToDoItem(String title, boolean done) {
         this.title = title;
         this.taskDescription = "";
         this.done = done;
     }
-
     public ToDoItem(String title) {
         this.title = title;
         this.taskDescription = "";
         this.done = false;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public ToDoItem() {
     }
 
     public String getTitle() {
