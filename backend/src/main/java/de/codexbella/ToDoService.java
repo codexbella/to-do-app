@@ -10,6 +10,6 @@ public class ToDoService {
     }
 
     public Set<ToDo> getToDos() {
-        return null;
+        return toDoRepo.getToDos();
     }
 }

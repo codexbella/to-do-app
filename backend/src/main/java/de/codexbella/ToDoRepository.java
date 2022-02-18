@@ -8,4 +8,8 @@ public class ToDoRepository {
     public ToDoRepository(Set<ToDo> toDos) {
         this.toDos = toDos;
     }
+
+    public Set<ToDo> getToDos() {
+        return toDos;
+    }
 }
