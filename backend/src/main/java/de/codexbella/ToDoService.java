@@ -9,15 +9,15 @@ public class ToDoService {
         this.toDoRepository = toDoRepo;
     }
 
-    public List<ToDo> getToDos() {
-        return toDoRepository.getToDoListe();
+    public List<ToDoItem> getToDos() {
+        return toDoRepository.getToDoList();
     }
 
-    public List<ToDo> getMatchingToDoItems(String searchTerm) {
+    public List<ToDoItem> getMatchingToDoItems(String searchTerm) {
         return toDoRepository.getMatchingToDoItems(searchTerm);
     }
 
-    public void setAsDone(ToDo toDo) {
+    public void setAsDone(ToDoItem toDo) {
         toDo.setDone(true);
     }
 
@@ -26,5 +26,9 @@ public class ToDoService {
         return "ToDoService{" +
                 "toDoRepo=" + toDoRepository +
                 '}';
+    }
+
+    public List<ToDoItem> getAllItemsNotDone() {
+        return toDoRepository.getAllItemsNotDone();
     }
 }

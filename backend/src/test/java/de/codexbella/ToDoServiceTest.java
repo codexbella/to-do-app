@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ToDoServiceTest {
     @Test
     void shouldReturnListOfToDos() {
-        ToDo testToDo1 = new ToDo("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDo testToDo2 = new ToDo("Fenster putzen");
-        ToDo testToDo3 = new ToDo("Impfung");
+        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
 
-        List<ToDo> testToDos = List.of(testToDo1, testToDo2, testToDo3);
+        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
 
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
@@ -25,11 +24,11 @@ class ToDoServiceTest {
     }
     @Test
     void shouldReturnMatchingToDos() {
-        ToDo testToDo1 = new ToDo("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDo testToDo2 = new ToDo("Fenster putzen");
-        ToDo testToDo3 = new ToDo("Impfung");
+        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
 
-        List<ToDo> testToDos = List.of(testToDo1, testToDo2, testToDo3);
+        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
 
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
@@ -38,34 +37,46 @@ class ToDoServiceTest {
     }
     @Test
     void shouldReturnEmptyListBecauseToDoNotInList() {
-        ToDo testToDo1 = new ToDo("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDo testToDo2 = new ToDo("Fenster putzen");
-        ToDo testToDo3 = new ToDo("Impfung");
+        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
 
-        List<ToDo> testToDos = List.of(testToDo1, testToDo2, testToDo3);
+        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
 
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        List<ToDo> emptyList = List.of();
-        List<ToDo> actualList = testToDoService.getMatchingToDoItems("aufräumen");
+        List<ToDoItem> emptyList = List.of();
+        List<ToDoItem> actualList = testToDoService.getMatchingToDoItems("aufräumen");
 
         assertEquals(emptyList, actualList);
     }
     @Test
     void shouldSetToDoAsDone() {
-        ToDo testToDo3 = new ToDo("Impfung");
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
 
-        List<ToDo> testToDos = List.of(testToDo3);
+        List<ToDoItem> testToDos = List.of(testToDo3);
 
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
         testToDoService.setAsDone(testToDo3);
 
-        Optional<ToDo> resultingToDo = testToDoService.getToDos().stream().findFirst();
+        Optional<ToDoItem> resultingToDo = testToDoService.getToDos().stream().findFirst();
 
         assertTrue(resultingToDo.get().isDone());
     }
+    @Test
+    void shouldReturnAllItemsThatAreNotDone() {
+        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
 
+        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
+
+        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
+        ToDoService testToDoService = new ToDoService(testToDoRepo);
+
+        assertEquals(List.of(testToDo1, testToDo3), testToDoService.getAllItemsNotDone());
+    }
 }
