@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-class ToDoControllerTest {
+class ToDoServiceTest {
     @Test
     void shouldReturnListOfToDos() {
         ToDo testToDo1 = new ToDo("Obi-Einkauf", "Wäscheständer, Kabelbinder");
