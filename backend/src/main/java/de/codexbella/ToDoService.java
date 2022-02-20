@@ -1,12 +1,18 @@
 package de.codexbella;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class ToDoService {
     private ToDoRepository toDoRepository;
 
-    public ToDoService(ToDoRepository toDoRepo) {
-        this.toDoRepository = toDoRepo;
+    public ToDoService(ToDoRepository toDoRepository) {
+        this.toDoRepository = toDoRepository;
+    }
+    public ToDoService() {
+        this.toDoRepository = new ToDoRepository();
     }
 
     @Override
@@ -16,16 +22,12 @@ public class ToDoService {
                 '}';
     }
 
-    public List<ToDoItem> getToDos() {
+    public List<ToDoItem> getToDoList() {
         return toDoRepository.getToDoList();
     }
 
     public List<ToDoItem> getMatchingToDoItems(String searchTerm) {
         return toDoRepository.getMatchingToDoItems(searchTerm);
-    }
-
-    public void setAsDone(ToDoItem toDo) {
-        toDo.setDone(true);
     }
 
     public List<ToDoItem> getAllItemsNotDone() {
@@ -36,17 +38,23 @@ public class ToDoService {
         return toDoRepository.addItem(toDoItem);
     }
 
-    public void setTitle(ToDoItem toDoItem, String title) {
-        toDoRepository.setTitle(toDoItem, title);
+    public boolean setTitle(ToDoItem toDoItem, String title) {
+        return toDoRepository.setTitle(toDoItem, title);
     }
 
-    public void setDescription(ToDoItem toDoItem, String description) {
-        toDoRepository.setDescription(toDoItem, description);
+    public boolean setDescription(ToDoItem toDoItem, String description) {
+        return toDoRepository.setDescription(toDoItem, description);
     }
 
-    public void deleteItem(ToDoItem toDoItem) {
-        toDoRepository.deleteItem(toDoItem);
+    public boolean deleteItem(ToDoItem toDoItem) {
+        return toDoRepository.deleteItem(toDoItem);
+    }
+
+    public boolean setAsDone(ToDoItem toDoItem) {
+        return toDoRepository.setItemAsDone(toDoItem);
+    }
+
+    public boolean setAsNotDone(ToDoItem toDoItem) {
+        return toDoRepository.setItemAsNotDone(toDoItem);
     }
 }
-//TODO Ordering the list
-//TODO Adding and then filtering with distinct (stream)

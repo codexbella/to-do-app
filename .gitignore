@@ -58,3 +58,5 @@ node
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/backend/src/test/java/com/example/demo/
+/backend/src/main/java/com/example/demo/

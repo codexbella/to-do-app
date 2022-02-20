@@ -1,5 +1,7 @@
 package de.codexbella;
 
+import java.util.Objects;
+
 public class ToDoItem {
     private String title;
     private String description;
@@ -52,6 +54,21 @@ public class ToDoItem {
                 ", taskDescription='" + description + '\'' +
                 ", done=" + done +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        ToDoItem toDoItem = (ToDoItem) o;
+        return done == toDoItem.done && title.equals(toDoItem.title) && description.equals(toDoItem.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, done);
     }
 
     public void setDone(boolean done) {

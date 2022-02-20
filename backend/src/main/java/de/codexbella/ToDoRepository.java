@@ -1,14 +1,21 @@
 package de.codexbella;
 
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Repository
 public class ToDoRepository {
     private List<ToDoItem> toDoList;
 
     public ToDoRepository(List<ToDoItem> toDoItems) {
         this.toDoList = toDoItems;
+    }
+    public ToDoRepository() {
+        this.toDoList = new ArrayList<>();
     }
 
     public List<ToDoItem> getToDoList() {
@@ -42,19 +49,27 @@ public class ToDoRepository {
     }
 
     public boolean setTitle(ToDoItem toDoItem, String title) {
-        Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.equals(toDoItem)).findFirst();
-        if (!itemToChangeOptional.isEmpty()) {
-            ToDoItem itemChanged = itemToChangeOptional.get();
-            itemChanged.setTitle(title);
-            for (int i = 0; i < toDoList.size(); i++) {
-                if (toDoList.get(i).equals(toDoItem)) {
-                    toDoList.remove(i);
-                    return toDoList.add(itemChanged);
+        boolean notAlreadyInList = toDoList.stream()
+                .noneMatch(item -> item.getTitle().equals(title));
+        if (notAlreadyInList) {
+            Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.equals(toDoItem)).findFirst();
+            if (!itemToChangeOptional.isEmpty()) {
+                ToDoItem itemChanged = itemToChangeOptional.get();
+                itemChanged.setTitle(title);
+/*
+                for (int i = 0; i < toDoList.size(); i++) {
+                    if (toDoList.get(i).equals(toDoItem)) {
+                        toDoList.remove(i);
+                        return toDoList.add(itemChanged);
+                    }
                 }
+*/
+                return true;
+            } else {
+                ToDoItem newItem = new ToDoItem(title);
+                boolean added = toDoList.add(newItem);
+                return added;
             }
-        } else {
-            ToDoItem itemToChange = new ToDoItem(title);
-            return toDoList.add(itemToChange);
         }
         return false;
     }
@@ -64,15 +79,14 @@ public class ToDoRepository {
         if (!itemToChangeOptional.isEmpty()) {
             ToDoItem itemChanged = itemToChangeOptional.get();
             itemChanged.setDescription(description);
-            for (int i = 0; i < toDoList.size(); i++) {
+/*            for (int i = 0; i < toDoList.size(); i++) {
                 if (toDoList.get(i).equals(toDoItem)) {
                     toDoList.remove(i);
                     return toDoList.add(itemChanged);
                 }
             }
-        } else {
-            ToDoItem itemToChange = new ToDoItem(description);
-            return toDoList.add(itemToChange);
+*/
+            return true;
         }
         return false;
     }
@@ -83,6 +97,30 @@ public class ToDoRepository {
             if (currentItem.equals(toDoItem)) {
                 toDoList.remove(i);
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean setItemAsDone(ToDoItem toDoItem) {
+        for (int i = 0; i < toDoList.size(); i++) {
+            ToDoItem currentItem = toDoList.get(i);
+            if (currentItem.equals(toDoItem)) {
+                toDoList.remove(i);
+                currentItem.setDone(true);
+                return toDoList.add(currentItem);
+            }
+        }
+        return false;
+    }
+
+    public boolean setItemAsNotDone(ToDoItem toDoItem) {
+        for (int i = 0; i < toDoList.size(); i++) {
+            ToDoItem currentItem = toDoList.get(i);
+            if (currentItem.equals(toDoItem)) {
+                toDoList.remove(i);
+                currentItem.setDone(false);
+                return toDoList.add(currentItem);
             }
         }
         return false;
