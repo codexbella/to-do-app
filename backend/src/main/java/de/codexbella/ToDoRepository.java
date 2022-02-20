@@ -58,4 +58,22 @@ public class ToDoRepository {
         }
         return false;
     }
+
+    public boolean setDescription(ToDoItem toDoItem, String description) {
+        Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.equals(toDoItem)).findFirst();
+        if (!itemToChangeOptional.isEmpty()) {
+            ToDoItem itemChanged = itemToChangeOptional.get();
+            itemChanged.setDescription(description);
+            for (int i = 0; i < toDoList.size(); i++) {
+                if (toDoList.get(i).equals(toDoItem)) {
+                    toDoList.remove(i);
+                    return toDoList.add(itemChanged);
+                }
+            }
+        } else {
+            ToDoItem itemToChange = new ToDoItem(description);
+            return toDoList.add(itemToChange);
+        }
+        return false;
+    }
 }

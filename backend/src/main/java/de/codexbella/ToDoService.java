@@ -39,6 +39,10 @@ public class ToDoService {
     public void setTitle(ToDoItem toDoItem, String title) {
         toDoRepository.setTitle(toDoItem, title);
     }
+
+    public void setDescription(ToDoItem toDoItem, String description) {
+        toDoRepository.setDescription(toDoItem, description);
+    }
 }
 //TODO Ordering the list
 //TODO Adding and then filtering with distinct (stream)

@@ -144,4 +144,22 @@ class ToDoServiceTest {
 
         assertEquals("Masern-Impfung", testToDoService.getMatchingToDoItems("Impfung").get(0).getTitle());
     }
+    @Test
+    void shouldChangeItemText() {
+        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
+
+        List<ToDoItem> testToDos = new ArrayList<>();
+        testToDos.add(testToDo1);
+        testToDos.add(testToDo2);
+        testToDos.add(testToDo3);
+
+        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
+        ToDoService testToDoService = new ToDoService(testToDoRepo);
+
+        testToDoService.setDescription(testToDo3, "Keuchhusten-Tetanus-Diphterie");
+
+        assertEquals("Keuchhusten-Tetanus-Diphterie", testToDoService.getMatchingToDoItems("Impfung").get(0).getDescription());
+    }
 }
