@@ -25,20 +25,23 @@ class ToDoControllerTest {
     void shouldAddNewToDoItem() {
         ToDoItem testToDo1 = new ToDoItem("Einkauf");
 
-        restTemplate.postForEntity("/todoapp/additem", testToDo1, ToDoItem[].class);
+        ResponseEntity<ToDoItem> actualResponse = restTemplate.postForEntity("/todoapp/additem", testToDo1, ToDoItem.class);
 
         ResponseEntity<ToDoItem[]> toDoItemResponseEntity = restTemplate.getForEntity("/todoapp/eink", ToDoItem[].class);
         System.out.println(toDoItemResponseEntity);
-        // Error
-        // org.springframework.web.client.RestClientException: Error while extracting response for type [class [Lde
-        // .codexbella.ToDoItem;] and content type [application/json]; nested exception is org.springframework.http
-        // .converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `[Lde
-        // .codexbella.ToDoItem;` from Object value (token `JsonToken.START_OBJECT`); nested exception is com
-        // .fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize value of type `[Lde
-        // .codexbella.ToDoItem;` from Object value (token `JsonToken.START_OBJECT`)
-        // at [Source: (PushbackInputStream); line: 1, column: 1]
+        // Error:
+        // org.springframework.web.client.RestClientException: Error while extracting response for type [class de
+        // .codexbella.ToDoItem] and content type [application/json]; nested exception is org.springframework.http
+        // .converter.HttpMessageNotReadableException: JSON parse error: Cannot construct instance of `de.codexbella
+        // .ToDoItem` (although at least one Creator exists): cannot deserialize from Object value (no delegate- or
+        // property-based Creator); nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException:
+        // Cannot construct instance of `de.codexbella.ToDoItem` (although at least one Creator exists): cannot
+        // deserialize from Object value (no delegate- or property-based Creator)
+        // at [Source: (PushbackInputStream); line: 1, column: 2]
+        //
     }
-    */
+ */
+
 /*    @Test
     void shouldReturnCompleteListOfToDoItems() {
 

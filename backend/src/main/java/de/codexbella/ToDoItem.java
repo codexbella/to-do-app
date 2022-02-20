@@ -27,13 +27,13 @@ public class ToDoItem {
         this.description = "";
         this.done = false;
     }
-/*    public ToDoItem(String title) {
+/*
+    public ToDoItem(String title) {
         this.title = "";
         this.description = "";
         this.done = false;
     }
     */
-
     public void setTitle(String title) {
         this.title = title;
     }
