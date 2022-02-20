@@ -29,19 +29,19 @@ class ToDoControllerTest {
 
         ResponseEntity<ToDoItem[]> toDoItemResponseEntity = restTemplate.getForEntity("/todoapp/eink", ToDoItem[].class);
         System.out.println(toDoItemResponseEntity);
-        // Error:
+        //
         // org.springframework.web.client.RestClientException: Error while extracting response for type [class de
         // .codexbella.ToDoItem] and content type [application/json]; nested exception is org.springframework.http
         // .converter.HttpMessageNotReadableException: JSON parse error: Cannot construct instance of `de.codexbella
-        // .ToDoItem` (although at least one Creator exists): cannot deserialize from Object value (no delegate- or
-        // property-based Creator); nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException:
-        // Cannot construct instance of `de.codexbella.ToDoItem` (although at least one Creator exists): cannot
-        // deserialize from Object value (no delegate- or property-based Creator)
-        // at [Source: (PushbackInputStream); line: 1, column: 2]
+        // .ToDoItem` (although at least one Creator exists): no boolean/Boolean-argument constructor/factory method
+        // to deserialize from boolean value (true); nested exception is com.fasterxml.jackson.databind.exc
+        // .MismatchedInputException: Cannot construct instance of `de.codexbella.ToDoItem` (although at least one
+        // Creator exists): no boolean/Boolean-argument constructor/factory method to deserialize from boolean value
+        // (true)
+        // at [Source: (PushbackInputStream); line: 1, column: 1]
         //
     }
- */
-
+*/
 /*    @Test
     void shouldReturnCompleteListOfToDoItems() {
 
