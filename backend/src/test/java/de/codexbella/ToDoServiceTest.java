@@ -197,7 +197,7 @@ class ToDoServiceTest {
         assertEquals("Keuchhusten-Tetanus-Diphterie", testToDoService.getMatchingToDoItems("Impfung").get(0).getDescription());
     }
     @Test
-    void shouldReturnFalseBecauseNoSuchItem() {
+    void shouldReturnFalseBecauseNoSuchItemToSetDescriptionOf() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
         ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");

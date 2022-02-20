@@ -27,24 +27,32 @@ public class ToDoItem {
         this.description = "";
         this.done = false;
     }
-
-    public ToDoItem() {
+/*    public ToDoItem(String title) {
+        this.title = "";
+        this.description = "";
+        this.done = false;
     }
+    */
 
     public void setTitle(String title) {
         this.title = title;
     }
-
     public String getTitle() {
         return title;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+    public boolean isDone() {
+        return done;
     }
 
     @Override
@@ -65,17 +73,8 @@ public class ToDoItem {
         ToDoItem toDoItem = (ToDoItem) o;
         return done == toDoItem.done && title.equals(toDoItem.title) && description.equals(toDoItem.description);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(title, description, done);
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
-    public boolean isDone() {
-        return done;
     }
 }
