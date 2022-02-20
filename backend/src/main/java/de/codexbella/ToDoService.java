@@ -43,6 +43,10 @@ public class ToDoService {
     public void setDescription(ToDoItem toDoItem, String description) {
         toDoRepository.setDescription(toDoItem, description);
     }
+
+    public void deleteItem(ToDoItem toDoItem) {
+        toDoRepository.deleteItem(toDoItem);
+    }
 }
 //TODO Ordering the list
 //TODO Adding and then filtering with distinct (stream)

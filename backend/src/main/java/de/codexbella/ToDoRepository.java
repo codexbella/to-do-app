@@ -76,4 +76,15 @@ public class ToDoRepository {
         }
         return false;
     }
+
+    public boolean deleteItem(ToDoItem toDoItem) {
+        for (int i = 0; i < toDoList.size(); i++) {
+            ToDoItem currentItem = toDoList.get(i);
+            if (currentItem.equals(toDoItem)) {
+                toDoList.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 }

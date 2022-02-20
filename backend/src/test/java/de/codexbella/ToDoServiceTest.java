@@ -1,6 +1,7 @@
 package de.codexbella;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestExecutionListeners;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ class ToDoServiceTest {
         assertEquals(testToDos, testToDoService.getToDos());
     }
     @Test
-    void shouldReturnMatchingToDoItems() {
+    void shouldReturnMatchingToDoItemsByTitle() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung");
@@ -161,5 +162,27 @@ class ToDoServiceTest {
         testToDoService.setDescription(testToDo3, "Keuchhusten-Tetanus-Diphterie");
 
         assertEquals("Keuchhusten-Tetanus-Diphterie", testToDoService.getMatchingToDoItems("Impfung").get(0).getDescription());
+    }
+    @Test
+    void shouldDeleteItem() {
+        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
+
+        List<ToDoItem> testToDos = new ArrayList<>();
+        testToDos.add(testToDo1);
+        testToDos.add(testToDo2);
+        testToDos.add(testToDo3);
+
+        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
+        ToDoService testToDoService = new ToDoService(testToDoRepo);
+
+        testToDoService.deleteItem(testToDo2);
+
+        List<ToDoItem> expected = new ArrayList<>();
+        expected.add(testToDo1);
+        expected.add(testToDo3);
+
+        assertEquals(expected, testToDoService.getToDos());
     }
 }
