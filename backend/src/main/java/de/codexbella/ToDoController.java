@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/todoapp")
+@RequestMapping("/todoitems")
 public class ToDoController {
     private ToDoService toDoService;
 
@@ -27,28 +27,28 @@ public class ToDoController {
     }
 
     @PostMapping("/additem")
-    public boolean addToDoItem(@RequestBody ToDoItem toDoItemToAdd) {
+    public List<ToDoItem> addToDoItem(@RequestBody ToDoItem toDoItemToAdd) {
         return toDoService.addItem(toDoItemToAdd);
     }
 
     @PostMapping("/setasdone")
-    public boolean setItemAsDone(@RequestBody ToDoItem toDoItem) {
+    public List<ToDoItem> setItemAsDone(@RequestBody ToDoItem toDoItem) {
         return toDoService.setAsDone(toDoItem);
     }
     @PostMapping("/setasnotdone")
-    public boolean setItemAsNotDone(@RequestBody ToDoItem toDoItem) {
+    public List<ToDoItem> setItemAsNotDone(@RequestBody ToDoItem toDoItem) {
         return toDoService.setAsNotDone(toDoItem);
     }
     @PostMapping("/settitle/{title}")
-    public boolean setTitle(@RequestBody ToDoItem toDoItem, @PathVariable String title) {
+    public List<ToDoItem> setTitle(@RequestBody ToDoItem toDoItem, @PathVariable String title) {
         return toDoService.setTitle(toDoItem, title);
     }
     @PostMapping("/setdescription/{description}")
-    public boolean setDescription(@RequestBody ToDoItem toDoItem, @PathVariable String description) {
+    public List<ToDoItem> setDescription(@RequestBody ToDoItem toDoItem, @PathVariable String description) {
         return toDoService.setDescription(toDoItem, description);
     }
     @PostMapping("/delete")
-    public boolean deleteItem(@RequestBody ToDoItem toDoItem) {
+    public List<ToDoItem> deleteItem(@RequestBody ToDoItem toDoItem) {
         return toDoService.deleteItem(toDoItem);
     }
 }

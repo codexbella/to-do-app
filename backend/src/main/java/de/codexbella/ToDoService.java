@@ -34,27 +34,33 @@ public class ToDoService {
         return toDoRepository.getAllItemsNotDone();
     }
 
-    public boolean addItem(ToDoItem toDoItem) {
-        return toDoRepository.addItem(toDoItem);
+    public List<ToDoItem> addItem(ToDoItem toDoItem) {
+        toDoRepository.addItem(toDoItem);
+        return getToDoList();
     }
 
-    public boolean setTitle(ToDoItem toDoItem, String title) {
-        return toDoRepository.setTitle(toDoItem, title);
+    public List<ToDoItem> setTitle(ToDoItem toDoItem, String title) {
+        toDoRepository.setTitle(toDoItem, title);
+        return getToDoList();
     }
 
-    public boolean setDescription(ToDoItem toDoItem, String description) {
-        return toDoRepository.setDescription(toDoItem, description);
+    public List<ToDoItem> setDescription(ToDoItem toDoItem, String description) {
+        toDoRepository.setDescription(toDoItem, description);
+        return getToDoList();
     }
 
-    public boolean deleteItem(ToDoItem toDoItem) {
-        return toDoRepository.deleteItem(toDoItem);
+    public List<ToDoItem> deleteItem(ToDoItem toDoItem) {
+        toDoRepository.deleteItem(toDoItem);
+        return getToDoList();
     }
 
-    public boolean setAsDone(ToDoItem toDoItem) {
-        return toDoRepository.setItemAsDone(toDoItem);
+    public List<ToDoItem> setAsDone(ToDoItem toDoItem) {
+        toDoRepository.setItemAsDone(toDoItem);
+        return getToDoList();
     }
 
-    public boolean setAsNotDone(ToDoItem toDoItem) {
-        return toDoRepository.setItemAsNotDone(toDoItem);
+    public List<ToDoItem> setAsNotDone(ToDoItem toDoItem) {
+        toDoRepository.setItemAsNotDone(toDoItem);
+        return getToDoList();
     }
 }

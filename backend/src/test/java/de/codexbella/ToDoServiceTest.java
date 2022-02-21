@@ -110,7 +110,7 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        boolean added = testToDoService.addItem(testToDo3);
+        testToDoService.addItem(testToDo3);
 
         List<ToDoItem> expectedToDoList = new ArrayList<>();
         expectedToDoList.add(testToDo1);
@@ -119,7 +119,6 @@ class ToDoServiceTest {
 
         List<ToDoItem> actualToDoList = testToDoService.getToDoList();
 
-        assertTrue(added);
         assertEquals(expectedToDoList, actualToDoList);
     }
     @Test
@@ -136,9 +135,8 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        boolean added = testToDoService.addItem(testToDo3);
+        testToDoService.addItem(testToDo3);
 
-        assertFalse(added);
         assertEquals(testToDos, testToDoService.getToDoList());
     }
     @Test
@@ -173,9 +171,8 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        boolean setTitle = testToDoService.setTitle(testToDo3, "Fenster putzen");
+        List<ToDoItem> setTitle = testToDoService.setTitle(testToDo3, "Fenster putzen");
 
-        assertFalse(setTitle);
         assertEquals("Impfung", testToDoService.getMatchingToDoItems("impf").get(0).getTitle());
     }
     @Test
@@ -209,9 +206,8 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        boolean descriptionSet = testToDoService.setDescription(testToDo3, "Keuchhusten-Tetanus-Diphterie");
+        List<ToDoItem> descriptionSet = testToDoService.setDescription(testToDo3, "Keuchhusten-Tetanus-Diphterie");
 
-        assertFalse(descriptionSet);
         assertEquals(testToDos, testToDoService.getToDoList());
     }
     @Test
