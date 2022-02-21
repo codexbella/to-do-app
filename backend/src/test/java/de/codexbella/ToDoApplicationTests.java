@@ -1,10 +1,10 @@
-package com.example.demo;
+package de.codexbella;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class ToDoApplicationTests {
 
 	@Test
 	void contextLoads() {
