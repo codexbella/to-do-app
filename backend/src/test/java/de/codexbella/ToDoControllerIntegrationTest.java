@@ -124,5 +124,8 @@ class ToDoControllerIntegrationTest {
 
         Assertions.assertThat(Arrays.stream(listAfterDelete).toList()).isEqualTo(testToDos);
 
+        // shouldReturnEmptyListBecauseToDoItemNotInList
+        ToDoItem[] responseGetEmptyList2 = restTemplate.getForObject("/todoitems/tuedelue", ToDoItem[].class);
+        Assertions.assertThat(Arrays.stream(responseGetEmptyList2).toList()).isEqualTo(List.of());
     }
 }

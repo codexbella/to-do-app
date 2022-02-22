@@ -1,12 +1,15 @@
 package de.codexbella;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class ToDoServiceTest {
     @Test
@@ -194,7 +197,7 @@ class ToDoServiceTest {
         assertEquals("Keuchhusten-Tetanus-Diphterie", testToDoService.getMatchingToDoItems("Impfung").get(0).getDescription());
     }
     @Test
-    void shouldReturnFalseBecauseNoSuchItemToSetDescriptionOf() {
+    void shouldNotWorkBecauseNoSuchItemToSetDescriptionOf() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
         ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
@@ -231,5 +234,26 @@ class ToDoServiceTest {
         expected.add(testToDo3);
 
         assertEquals(expected, testToDoService.getToDoList());
+    }
+    @Test
+    void shouldAddNewToDoItemWithMock() {
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
+
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+
+        testToDoService.addItem(testToDo3);
+
+        verify(mockToDoRepo).addItem(testToDo3);
+    }
+    @Test
+    void shouldReturnMatchingToDoItemsByTitleWithMock() {
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+        when(mockToDoRepo.getMatchingToDoItems("fenster")).thenReturn(List.of(testToDo2));
+
+        assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
     }
 }
