@@ -57,27 +57,72 @@ class ToDoControllerIntegrationTest {
         testToDos.add(testToDo3);
         testToDos.add(testToDo4);
 
-        ResponseEntity<ToDoItem[]> responseGetAll = restTemplate.getForEntity("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAll = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
 
-        Assertions.assertThat(Arrays.stream(responseGetAll.getBody()).toList()).isEqualTo(testToDos);
+        Assertions.assertThat(Arrays.stream(listAll).toList()).isEqualTo(testToDos);
 
         // shouldSetToDoItemAsDone
+        ToDoItem[] listDone = restTemplate.postForObject("/todoitems/setasdone", testToDo3, ToDoItem[].class);
+        testToDo3.setDone(true);
+
+        Assertions.assertThat(Arrays.stream(listDone).toList()).isEqualTo(testToDos);
 
         // shouldSetToDoItemAsNotDone
+        ToDoItem[] listNotDone = restTemplate.postForObject("/todoitems/setasnotdone", testToDo3, ToDoItem[].class);
+        testToDo3.setDone(false);
+
+        Assertions.assertThat(Arrays.stream(listNotDone).toList()).isEqualTo(testToDos);
 
         // shouldReturnAllToDoItemsThatAreNotDone
+        ToDoItem[] listAllNotDone = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+
+        Assertions.assertThat(Arrays.stream(listAllNotDone).toList()).isEqualTo(testToDos);
 
         // shouldNotAddNewToDoItemBecauseAlreadyInList
+        ResponseEntity<ToDoItem[]> responseNoDoubleAdding = restTemplate.postForEntity("/todoitems/additem", testToDo1, ToDoItem[].class);
+
+        Assertions.assertThat(Arrays.stream(responseNoDoubleAdding.getBody()).toList()).isEqualTo(testToDos);
 
         // shouldChangeItemTitle
+        ToDoItem testToDo3changed1 = new ToDoItem("Masern-Impfung", testToDo3.getDescription(), testToDo3.isDone());
+        List<ToDoItem> inputForTitleChange = List.of(testToDo3, testToDo3changed1);
+
+        ToDoItem[] listAfterTitleChange = restTemplate.postForObject("/todoitems/settitle", inputForTitleChange, ToDoItem[].class);
+        testToDo3.setTitle("Masern-Impfung");
+
+        Assertions.assertThat(Arrays.stream(listAfterTitleChange).toList()).isEqualTo(testToDos);
 
         // shouldNotChangeItemTitleBecauseDuplicate
+        ToDoItem testToDo3changed2 = new ToDoItem("Fenster putzen", testToDo3.getDescription(), testToDo3.isDone());
+        List<ToDoItem> inputForNoTitleChange = List.of(testToDo3, testToDo3changed2);
+        ToDoItem[] listAfterNoTitleChange = restTemplate.postForObject("/todoitems/settitle", inputForNoTitleChange, ToDoItem[].class);
+
+        Assertions.assertThat(Arrays.stream(listAfterNoTitleChange).toList()).isEqualTo(testToDos);
 
         // shouldChangeItemDescription
+        ToDoItem testToDo3changed3 = new ToDoItem(testToDo3.getTitle(), "in 6 Monaten", testToDo3.isDone());
+        List<ToDoItem> inputForDescriptionChange = List.of(testToDo3, testToDo3changed3);
+
+        ToDoItem[] listAfterDescriptionChange = restTemplate.postForObject("/todoitems/setdescription", inputForDescriptionChange, ToDoItem[].class);
+        testToDo3.setDescription("in 6 Monaten");
+
+        Assertions.assertThat(Arrays.stream(listAfterDescriptionChange).toList()).isEqualTo(testToDos);
 
         // shouldReturnFalseBecauseNoSuchItemToSetDescriptionOf
+        ToDoItem itemNotInList = new ToDoItem("ladidadida", testToDo3.getDescription(), testToDo3.isDone());
+        ToDoItem itemNotInListChanged = new ToDoItem("ladidadida", "", testToDo3.isDone());
+
+        List<ToDoItem> inputForNoDescriptionChange = List.of(itemNotInList, itemNotInListChanged);
+
+        ToDoItem[] listAfterNoDescriptionChange = restTemplate.postForObject("/todoitems/setdescription", inputForNoDescriptionChange, ToDoItem[].class);
+
+        Assertions.assertThat(Arrays.stream(listAfterNoDescriptionChange).toList()).isEqualTo(testToDos);
 
         // shouldDeleteItem
+        ToDoItem[] listAfterDelete = restTemplate.postForObject("/todoitems/delete", testToDo3, ToDoItem[].class);
+        testToDos.remove(testToDo3);
+
+        Assertions.assertThat(Arrays.stream(listAfterDelete).toList()).isEqualTo(testToDos);
 
     }
 }

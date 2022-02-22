@@ -56,14 +56,6 @@ public class ToDoRepository {
             if (!itemToChangeOptional.isEmpty()) {
                 ToDoItem itemChanged = itemToChangeOptional.get();
                 itemChanged.setTitle(title);
-/*
-                for (int i = 0; i < toDoList.size(); i++) {
-                    if (toDoList.get(i).equals(toDoItem)) {
-                        toDoList.remove(i);
-                        return toDoList.add(itemChanged);
-                    }
-                }
-*/
                 return true;
             } else {
                 ToDoItem newItem = new ToDoItem(title);
@@ -79,13 +71,6 @@ public class ToDoRepository {
         if (!itemToChangeOptional.isEmpty()) {
             ToDoItem itemChanged = itemToChangeOptional.get();
             itemChanged.setDescription(description);
-/*            for (int i = 0; i < toDoList.size(); i++) {
-                if (toDoList.get(i).equals(toDoItem)) {
-                    toDoList.remove(i);
-                    return toDoList.add(itemChanged);
-                }
-            }
-*/
             return true;
         }
         return false;
@@ -97,30 +82,6 @@ public class ToDoRepository {
             if (currentItem.equals(toDoItem)) {
                 toDoList.remove(i);
                 return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean setItemAsDone(ToDoItem toDoItem) {
-        for (int i = 0; i < toDoList.size(); i++) {
-            ToDoItem currentItem = toDoList.get(i);
-            if (currentItem.equals(toDoItem)) {
-                toDoList.remove(i);
-                currentItem.setDone(true);
-                return toDoList.add(currentItem);
-            }
-        }
-        return false;
-    }
-
-    public boolean setItemAsNotDone(ToDoItem toDoItem) {
-        for (int i = 0; i < toDoList.size(); i++) {
-            ToDoItem currentItem = toDoList.get(i);
-            if (currentItem.equals(toDoItem)) {
-                toDoList.remove(i);
-                currentItem.setDone(false);
-                return toDoList.add(currentItem);
             }
         }
         return false;

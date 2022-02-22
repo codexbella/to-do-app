@@ -63,9 +63,9 @@ class ToDoServiceTest {
 
         testToDoService.setAsDone(testToDo3);
 
-        Optional<ToDoItem> resultingToDo = testToDoService.getToDoList().stream().findFirst();
+        ToDoItem resultingToDo = testToDoService.getToDoList().stream().findFirst().get();
 
-        assertTrue(resultingToDo.get().isDone());
+        assertTrue(resultingToDo.isDone());
     }
     @Test
     void shouldSetToDoItemAsNotDone() {
@@ -79,9 +79,9 @@ class ToDoServiceTest {
 
         testToDoService.setAsNotDone(testToDo3);
 
-        Optional<ToDoItem> resultingToDo = testToDoService.getToDoList().stream().findFirst();
+        ToDoItem resultingToDo = testToDoService.getToDoList().stream().findFirst().get();
 
-        assertFalse(resultingToDo.get().isDone());
+        assertFalse(resultingToDo.isDone());
     }
     @Test
     void shouldReturnAllToDoItemsThatAreNotDone() {

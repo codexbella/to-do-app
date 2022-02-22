@@ -39,13 +39,13 @@ public class ToDoController {
     public List<ToDoItem> setItemAsNotDone(@RequestBody ToDoItem toDoItem) {
         return toDoService.setAsNotDone(toDoItem);
     }
-    @PostMapping("/settitle/{title}")
-    public List<ToDoItem> setTitle(@RequestBody ToDoItem toDoItem, @PathVariable String title) {
-        return toDoService.setTitle(toDoItem, title);
+    @PostMapping("/settitle")
+    public List<ToDoItem> setTitle(@RequestBody ToDoItem[] toDoItems) {
+        return toDoService.setTitle(toDoItems[0], toDoItems[1].getTitle());
     }
-    @PostMapping("/setdescription/{description}")
-    public List<ToDoItem> setDescription(@RequestBody ToDoItem toDoItem, @PathVariable String description) {
-        return toDoService.setDescription(toDoItem, description);
+    @PostMapping("/setdescription")
+    public List<ToDoItem> setDescription(@RequestBody ToDoItem[] toDoItems) {
+        return toDoService.setDescription(toDoItems[0], toDoItems[1].getDescription());
     }
     @PostMapping("/delete")
     public List<ToDoItem> deleteItem(@RequestBody ToDoItem toDoItem) {

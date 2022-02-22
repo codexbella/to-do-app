@@ -55,12 +55,27 @@ public class ToDoService {
     }
 
     public List<ToDoItem> setAsDone(ToDoItem toDoItem) {
-        toDoRepository.setItemAsDone(toDoItem);
-        return getToDoList();
+        List<ToDoItem> toDoList = toDoRepository.getToDoList();
+            for (int i = 0; i < toDoList.size(); i++) {
+                ToDoItem currentItem = toDoList.get(i);
+                if (currentItem.equals(toDoItem)) {
+                    currentItem.setDone(true);
+                    return toDoList;
+                }
+            }
+        return toDoList;
     }
 
     public List<ToDoItem> setAsNotDone(ToDoItem toDoItem) {
-        toDoRepository.setItemAsNotDone(toDoItem);
-        return getToDoList();
+        List<ToDoItem> toDoList = toDoRepository.getToDoList();
+            for (int i = 0; i < toDoList.size(); i++) {
+                ToDoItem currentItem = toDoList.get(i);
+                if (currentItem.equals(toDoItem)) {
+                    currentItem.setDone(false);
+                    return toDoList;
+                }
+            }
+        return toDoList;
     }
+
 }
