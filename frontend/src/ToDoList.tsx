@@ -1,5 +1,5 @@
-import React, {ReactEventHandler, useEffect, useState} from "react";
-import {ToDoItem, ResponseBody} from "./itemModel";
+import React, {useEffect, useState} from "react";
+import {ToDoItem} from "./itemModel";
 import ToDoGalleryItem from "./ToDoGalleryItem";
 
 
