@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {ToDoItem} from "./itemModel";
 import ToDoGalleryItem from "./ToDoGalleryItem";
 
-
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [urlEnd, setUrlEnd] = useState('getall');
@@ -32,14 +31,16 @@ export default function ToDoList() {
         }
     }
 
-    useEffect(() => askBackend(urlEnd), [urlEnd])
+    useEffect(() => askBackend(urlEnd), [])
 
     const handleSearchInput = (input: string) => {
         setAskingMethod('GET')
         if (input === '') {
             setUrlEnd('getall')
+            askBackend('getall')
         } else {
             setUrlEnd(input)
+            askBackend(input)
         }
         setSearchTerm(input)
     }
@@ -56,13 +57,29 @@ export default function ToDoList() {
             done: currentItem.done})
     }
 
-    return <div><h1>To-Do-Liste</h1>
-        <button onClick={() => {setUrlEnd('getall'); setAskingMethod('GET'); setSearchTerm('')}} className='getall-button'>Alle anzeigen</button>
-        <button onClick={() => {setUrlEnd('getallnotdone'); setAskingMethod('GET'); setSearchTerm('')}} className='getallnotdone-button'>Offene anzeigen</button>
+    return <div><h1 id='title-to-do-list'>To-Do-Liste</h1>
+
+        <button onClick={() => {
+            setAskingMethod('GET')
+            setSearchTerm('')
+            askBackend('getall')
+        }
+        } className='getall-button'>Alle anzeigen</button>
+
+        <button onClick={() => {
+            setAskingMethod('GET')
+            setSearchTerm('')
+            askBackend('getallnotdone')
+        }
+        } className='getallnotdone-button'>Offene anzeigen</button>
+
         <div>
             <input type='text' placeholder='Titel' onChange={typed => changeCurrentItemTitle(typed.target.value)} className='new-to-do-item-title'/>
             <input type='text' placeholder='Beschreibung' onChange={typed => changeCurrentItemDescription(typed.target.value)} className='new-to-do-item-description'/>
-            <button onClick={() => {setUrlEnd('additem'); setAskingMethod('POST'); setSearchTerm('')}} className='additem-button'>Neues To-Do anlegen</button>
+            <button onClick={() => {
+                setAskingMethod('POST')
+                setSearchTerm('')
+                askBackend('additem')}} className='additem-button'>Neues To-Do anlegen</button>
         </div>
 
         <div>
@@ -72,8 +89,7 @@ export default function ToDoList() {
         </div>
 
         <div>
-            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={JSON.stringify(item)}/>)}
+            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={JSON.stringify(item.title)}/>)}
         </div>
-
     </div>
 }

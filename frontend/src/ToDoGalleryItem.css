@@ -1,0 +1,14 @@
+.to-do-item {
+    padding: 3px;
+    border: 5px black solid;
+    border-radius: 5%;
+}
+.to-do-item-title {
+    font-variant: small-caps;
+}
+.gallery-item-description {
+
+}
+.gallery-item-done {
+    font-style: italic;
+}
