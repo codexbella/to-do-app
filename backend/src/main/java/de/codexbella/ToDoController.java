@@ -6,6 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todoitems")
+@CrossOrigin
 public class ToDoController {
     private ToDoService toDoService;
 
