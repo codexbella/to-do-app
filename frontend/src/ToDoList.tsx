@@ -31,7 +31,7 @@ export default function ToDoList() {
         }
     }
 
-    useEffect((url = urlEnd) => askBackend(url), [])
+    useEffect(() => askBackend('getall'), [])
 
     const handleSearchInput = (input: string) => {
         setAskingMethod('GET')
