@@ -49,8 +49,8 @@ public class ToDoService {
         return getToDoList();
     }
 
-    public List<ToDoItem> deleteItem(ToDoItem toDoItem) {
-        toDoRepository.deleteItem(toDoItem);
+    public List<ToDoItem> deleteItem(String title) {
+        toDoRepository.deleteItem(title);
         return getToDoList();
     }
 

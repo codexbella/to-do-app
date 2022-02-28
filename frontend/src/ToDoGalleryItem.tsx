@@ -8,18 +8,15 @@ interface ToDoGalleryItemProps {
 }
 
 export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
-    const deleteToDo = (itemToDelete: ToDoItem) => {
-        fetch('http://localhost:8080/todoitems/delete', {
-            method: 'POST',
-            body: JSON.stringify(itemToDelete),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+    const deleteToDo = (title: string) => {
+        fetch('http://localhost:8080/todoitems/'+title, {
+            method: 'DELETE'
         })
             .then(response => response.json())
             .then((list: Array<ToDoItem>) => props.onChange(list))
             .catch(() => console.log('oopsie - deleteItem'))
     }
+
     const changeStatus = (itemToChange: ToDoItem) => {
         if (itemToChange.done) {
             fetch('http://localhost:8080/todoitems/setasnotdone', {
@@ -52,7 +49,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
             <span className="gallery-item-description">{ props.toDoItem.description }</span>
             <img className="item-edit-pen" src={pen} alt='Bearbeiten'/>
             <span id="checkmark" onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
-            <span id="x-for-delete" onClick={() => deleteToDo(props.toDoItem)} >&#10005;</span>
+            <span id="x-for-delete" onClick={() => deleteToDo(props.toDoItem.title)} >&#10005;</span>
         </span>
     )
 }

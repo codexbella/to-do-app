@@ -227,7 +227,7 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.deleteItem(testToDo2);
+        testToDoService.deleteItem(testToDo2.getTitle());
 
         List<ToDoItem> expected = new ArrayList<>();
         expected.add(testToDo1);

@@ -119,8 +119,10 @@ class ToDoControllerIntegrationTest {
         Assertions.assertThat(Arrays.stream(listAfterNoDescriptionChange).toList()).isEqualTo(testToDos);
 
         // shouldDeleteItem
-        ToDoItem[] listAfterDelete = restTemplate.postForObject("/todoitems/delete", testToDo3, ToDoItem[].class);
+        restTemplate.delete("/todoitems/"+testToDo3.getTitle());
         testToDos.remove(testToDo3);
+
+        ToDoItem[] listAfterDelete = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAfterDelete).toList()).isEqualTo(testToDos);
 

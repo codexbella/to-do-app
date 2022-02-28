@@ -76,10 +76,10 @@ public class ToDoRepository {
         return false;
     }
 
-    public boolean deleteItem(ToDoItem toDoItem) {
+    public boolean deleteItem(String title) {
         for (int i = 0; i < toDoList.size(); i++) {
             ToDoItem currentItem = toDoList.get(i);
-            if (currentItem.equals(toDoItem)) {
+            if (currentItem.getTitle().equals(title)) {
                 toDoList.remove(i);
                 return true;
             }

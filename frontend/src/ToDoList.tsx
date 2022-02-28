@@ -87,7 +87,6 @@ export default function ToDoList() {
             <button className='additem-button' onClick={() => {addItem(currentItem); setTitleField(''); setDescriptionField('')}}>
                 Neues To-Do anlegen
             </button>
-
         </div>
 
         <div>
@@ -97,7 +96,7 @@ export default function ToDoList() {
         </div>
 
         <div id="to-do-items-wrapper">
-            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={JSON.stringify(item.title)} onChange={setToDoList}/>)}
+            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.title} onChange={setToDoList}/>)}
         </div>
     </div>
 }

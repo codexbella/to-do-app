@@ -48,8 +48,9 @@ public class ToDoController {
     public List<ToDoItem> setDescription(@RequestBody ToDoItem[] toDoItems) {
         return toDoService.setDescription(toDoItems[0], toDoItems[1].getDescription());
     }
-    @PostMapping("/delete")
-    public List<ToDoItem> deleteItem(@RequestBody ToDoItem toDoItem) {
-        return toDoService.deleteItem(toDoItem);
+
+    @DeleteMapping("/{title}")
+    public List<ToDoItem> deleteItem(@PathVariable String title) {
+        return toDoService.deleteItem(title);
     }
 }
