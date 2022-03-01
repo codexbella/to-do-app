@@ -41,45 +41,31 @@ public class ToDoRepository {
     }
 
     public boolean addItem(ToDoItem toDoItem) {
-        if (toDoList.stream()
-                .noneMatch(item -> item.getTitle().equals(toDoItem.getTitle()))) {
+        if (toDoList.stream().noneMatch(item -> item.getTitle().equals(toDoItem.getTitle()))) {
             return toDoList.add(toDoItem);
         }
         return false;
     }
 
-    public boolean setTitle(ToDoItem toDoItem, String title) {
-        boolean notAlreadyInList = toDoList.stream()
-                .noneMatch(item -> item.getTitle().equals(title));
-        if (notAlreadyInList) {
-            Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.equals(toDoItem)).findFirst();
-            if (!itemToChangeOptional.isEmpty()) {
-                ToDoItem itemChanged = itemToChangeOptional.get();
-                itemChanged.setTitle(title);
-                return true;
-            } else {
-                ToDoItem newItem = new ToDoItem(title);
-                boolean added = toDoList.add(newItem);
-                return added;
+    public boolean changeItem(ToDoItem toDoItemChanged) {
+        Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.getId().equals(toDoItemChanged.getId())).findFirst();
+        if (itemToChangeOptional.isPresent()) {
+                ToDoItem itemToChange = itemToChangeOptional.get();
+            if (toDoList.stream().filter(item -> item.getTitle().equals(toDoItemChanged.getTitle())).findFirst().isEmpty()) {
+                itemToChange.setTitle(toDoItemChanged.getTitle());
             }
+                itemToChange.setDescription(toDoItemChanged.getDescription());
+                itemToChange.setDone(toDoItemChanged.isDone());
+                return true;
+        } else {
+            return false;
         }
-        return false;
     }
 
-    public boolean setDescription(ToDoItem toDoItem, String description) {
-        Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.equals(toDoItem)).findFirst();
-        if (!itemToChangeOptional.isEmpty()) {
-            ToDoItem itemChanged = itemToChangeOptional.get();
-            itemChanged.setDescription(description);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean deleteItem(String title) {
+    public boolean deleteItem(String id) {
         for (int i = 0; i < toDoList.size(); i++) {
             ToDoItem currentItem = toDoList.get(i);
-            if (currentItem.getTitle().equals(title)) {
+            if (currentItem.getId().equals(id)) {
                 toDoList.remove(i);
                 return true;
             }

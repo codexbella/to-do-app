@@ -8,13 +8,19 @@ interface ToDoGalleryItemProps {
 }
 
 export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
+
     const deleteToDo = (id: string) => {
         fetch('http://localhost:8080/todoitems/'+id, {
             method: 'DELETE'
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error('Fehlercode: '+response.status)
+            })
             .then((list: Array<ToDoItem>) => props.onChange(list))
-            .catch(() => console.log('oopsie - deleteItem'))
+            .catch(e => console.log('deleteitem: '+e.message))
     }
 
     const changeStatus = (itemToChange: ToDoItem) => {
@@ -27,9 +33,14 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                 'Content-Type': 'application/json'
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error('Fehlercode: '+response.status)
+            })
             .then((list: Array<ToDoItem>) => props.onChange(list))
-            .catch(() => console.log('oopsie - changeStatus'))
+            .catch(e => console.log('changeStatus: '+e.message))
     }
 
     return (
