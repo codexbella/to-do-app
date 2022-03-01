@@ -46,6 +46,7 @@ export default function ToDoList() {
             })
             .then((list: Array<ToDoItem>) => {
                 setToDoList(list)
+                setNewItem({title: 'test', description: '', done: false})
             })
             .catch(e => console.log('addItem: '+e.message))
     }
