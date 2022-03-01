@@ -32,25 +32,13 @@ public class ToDoController {
         return toDoService.addItem(toDoItemToAdd);
     }
 
-    @PostMapping("/setasdone")
-    public List<ToDoItem> setItemAsDone(@RequestBody ToDoItem toDoItem) {
-        return toDoService.setAsDone(toDoItem);
-    }
-    @PostMapping("/setasnotdone")
-    public List<ToDoItem> setItemAsNotDone(@RequestBody ToDoItem toDoItem) {
-        return toDoService.setAsNotDone(toDoItem);
-    }
-    @PostMapping("/settitle")
-    public List<ToDoItem> setTitle(@RequestBody ToDoItem[] toDoItems) {
-        return toDoService.setTitle(toDoItems[0], toDoItems[1].getTitle());
-    }
-    @PostMapping("/setdescription")
-    public List<ToDoItem> setDescription(@RequestBody ToDoItem[] toDoItems) {
-        return toDoService.setDescription(toDoItems[0], toDoItems[1].getDescription());
+    @PutMapping("/{id}")
+    public List<ToDoItem> changeItem(@RequestBody ToDoItem toDoItemChanged) {
+        return toDoService.changeItem(toDoItemChanged);
     }
 
-    @DeleteMapping("/{title}")
-    public List<ToDoItem> deleteItem(@PathVariable String title) {
-        return toDoService.deleteItem(title);
+    @DeleteMapping("/{id}")
+    public List<ToDoItem> deleteItem(@PathVariable String id) {
+        return toDoService.deleteItem(id);
     }
 }

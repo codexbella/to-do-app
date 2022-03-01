@@ -18,14 +18,16 @@ export default function ToDoList() {
             .then(response => response.json())
             .then((list: Array<ToDoItem>) => {
                 setToDoList(list)
-            }).catch(() => console.log('oopsie - getAll'))
+            })
+            .catch(() => console.log('oopsie - getAll'))
     }
     const getAllNotDone = () => {
         fetch('http://localhost:8080/todoitems/getallnotdone')
             .then(response => response.json())
             .then((list: Array<ToDoItem>) => {
                 setToDoList(list)
-            }).catch(() => console.log('oopsie - getAllNotDone'))
+            })
+            .catch(() => console.log('oopsie - getAllNotDone'))
     }
 
     const addItem = (item: NewItem) => {
@@ -36,10 +38,16 @@ export default function ToDoList() {
                 'Content-Type': 'application/json'
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error('Fehlercode: '+response.status)
+            })
             .then((list: Array<ToDoItem>) => {
                 setToDoList(list)
-            }).catch(() => console.log('oopsie - addItem'))
+            })
+            .catch(e => console.log('addItem: '+e.message))
     }
 
     useEffect(() => getAll(), [])
@@ -52,7 +60,8 @@ export default function ToDoList() {
                 .then(response => response.json())
                 .then((list: Array<ToDoItem>) => {
                     setToDoList(list)
-                }).catch(() => console.log('oopsie - search'))
+                })
+                .catch(() => console.log('oopsie - search'))
         }
         setSearchTerm(input)
     }
@@ -68,7 +77,8 @@ export default function ToDoList() {
             .then(response => response.json())
             .then((list: Array<ToDoItem>) => {
                 setToDoList(list)
-            }).catch(() => console.log('oopsie - changeItem'))
+            })
+            .catch(() => console.log('oopsie - changeItem'))
     }
 
     const changeNewItemTitle = (input: string) => {

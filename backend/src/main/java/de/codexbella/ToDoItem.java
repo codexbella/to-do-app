@@ -1,33 +1,48 @@
 package de.codexbella;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class ToDoItem {
+    private String id = UUID.randomUUID().toString();
     private String title;
     private String description;
-    private boolean done;
+    private boolean done = false;
 
     public ToDoItem(String title, String taskDescription, boolean done) {
+        //this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = taskDescription;
         this.done = done;
     }
     public ToDoItem(String title, String taskDescription) {
+        //this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = taskDescription;
         this.done = false;
     }
     public ToDoItem(String title, boolean done) {
+        //this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = "";
         this.done = done;
     }
+
     public ToDoItem(String title) {
+        //this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = "";
         this.done = false;
     }
     public ToDoItem() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setTitle(String title) {
@@ -53,9 +68,10 @@ public class ToDoItem {
 
     @Override
     public String toString() {
-        return "ToDo{" +
-                "title='" + title + '\'' +
-                ", taskDescription='" + description + '\'' +
+        return "ToDoItem{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", done=" + done +
                 '}';
     }
