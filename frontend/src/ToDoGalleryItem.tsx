@@ -8,8 +8,8 @@ interface ToDoGalleryItemProps {
 }
 
 export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
-    const deleteToDo = (title: string) => {
-        fetch('http://localhost:8080/todoitems/'+title, {
+    const deleteToDo = (id: string) => {
+        fetch('http://localhost:8080/todoitems/'+id, {
             method: 'DELETE'
         })
             .then(response => response.json())
@@ -18,29 +18,18 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
     }
 
     const changeStatus = (itemToChange: ToDoItem) => {
-        if (itemToChange.done) {
-            fetch('http://localhost:8080/todoitems/setasnotdone', {
-                method: 'POST',
-                body: JSON.stringify(itemToChange),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then((list: Array<ToDoItem>) => props.onChange(list))
-                .catch(() => console.log('oopsie - changeItem'))
-        } else {
-            fetch('http://localhost:8080/todoitems/setasdone', {
-                method: 'POST',
-                body: JSON.stringify(itemToChange),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then((list: Array<ToDoItem>) => props.onChange(list))
-                .catch(() => console.log('oopsie - changeItem'))
-        }
+        const itemId = itemToChange.id;
+        const changedItem = {id: itemId, title: itemToChange.title, description: itemToChange.description, done: !itemToChange.done};
+        fetch('http://localhost:8080/todoitems/'+itemId, {
+            method: 'PUT',
+            body: JSON.stringify(changedItem),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then((list: Array<ToDoItem>) => props.onChange(list))
+            .catch(() => console.log('oopsie - changeStatus'))
     }
 
     return (
@@ -49,7 +38,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
             <span className="gallery-item-description">{ props.toDoItem.description }</span>
             <img className="item-edit-pen" src={pen} alt='Bearbeiten'/>
             <span id="checkmark" onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
-            <span id="x-for-delete" onClick={() => deleteToDo(props.toDoItem.title)} >&#10005;</span>
+            <span id="x-for-delete" onClick={() => deleteToDo(props.toDoItem.id)} >&#10005;</span>
         </span>
     )
 }
