@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {ToDoItem} from "./itemModel";
+import {ToDoItem, NewItem} from "./itemModel";
 import ToDoGalleryItem from "./ToDoGalleryItem";
 import './ToDoList.css';
 
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
-    const [currentItem, setCurrentItem] = useState({title: 'test', description: '', done: false} as ToDoItem);
+
+    const [newItem, setNewItem] = useState({title: 'test', description: '', done: false} as NewItem);
+    const [currentItem, setCurrentItem] = useState({id: '', title: 'test', description: '', done: false} as ToDoItem);
+
     const [titleField, setTitleField] = useState('');
     const [descriptionField, setDescriptionField] = useState('');
 
@@ -25,7 +28,7 @@ export default function ToDoList() {
             }).catch(() => console.log('oopsie - getAllNotDone'))
     }
 
-    const addItem = (item: ToDoItem) => {
+    const addItem = (item: NewItem) => {
         fetch('http://localhost:8080/todoitems/additem', {
             method: 'POST',
             body: JSON.stringify(item),
@@ -54,18 +57,32 @@ export default function ToDoList() {
         setSearchTerm(input)
     }
 
-    const changeCurrentItemTitle = (input: string) => {
-        setCurrentItem({
+    const changeItem = (input: string) => {
+        fetch('http://localhost:8080/todoitems/'+input, {
+            method: 'PUT',
+            body: JSON.stringify(currentItem),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then((list: Array<ToDoItem>) => {
+                setToDoList(list)
+            }).catch(() => console.log('oopsie - changeItem'))
+    }
+
+    const changeNewItemTitle = (input: string) => {
+        setNewItem({
             title: input,
-            description: currentItem.description,
-            done: currentItem.done})
+            description: newItem.description,
+            done: newItem.done})
         setTitleField(input)
     }
-    const changeCurrentItemDescription = (input: string) => {
-        setCurrentItem({
-            title: currentItem.title,
+    const changeNewItemDescription = (input: string) => {
+        setNewItem({
+            title: newItem.title,
             description: input,
-            done: currentItem.done})
+            done: newItem.done})
         setDescriptionField(input)
     }
 
@@ -77,14 +94,14 @@ export default function ToDoList() {
 
         <div>
             <input className='new-to-do-item-title' type='text' placeholder='Titel' value={titleField}
-                   onChange={typed => changeCurrentItemTitle(typed.target.value)}
+                   onChange={typed => changeNewItemTitle(typed.target.value)}
             />
 
             <input className='new-to-do-item-description' type='text' placeholder='Beschreibung' value={descriptionField}
-                   onChange={typed => changeCurrentItemDescription(typed.target.value)}
+                   onChange={typed => changeNewItemDescription(typed.target.value)}
             />
 
-            <button className='additem-button' onClick={() => {addItem(currentItem); setTitleField(''); setDescriptionField('')}}>
+            <button className='additem-button' onClick={() => {addItem(newItem); setTitleField(''); setDescriptionField('')}}>
                 Neues To-Do anlegen
             </button>
         </div>
@@ -96,7 +113,7 @@ export default function ToDoList() {
         </div>
 
         <div id="to-do-items-wrapper">
-            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.title} onChange={setToDoList}/>)}
+            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} onChange={setToDoList}/>)}
         </div>
     </div>
 }
