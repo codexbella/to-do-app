@@ -48,7 +48,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
             <div className="to-do-item-title">{ props.toDoItem.title }</div>
             <span className="gallery-item-description">{ props.toDoItem.description }</span>
             <img className="item-edit-pen" src={pen} alt='Bearbeiten'/>
-            <span id="checkmark" onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
+            <span id={props.toDoItem.done ? 'checkmark-done': 'checkmark-not-done'} onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
             <span id="x-for-delete" onClick={() => deleteToDo(props.toDoItem.id)} >&#10005;</span>
         </span>
     )

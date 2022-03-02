@@ -8,7 +8,7 @@ export default function ToDoList() {
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
 
     const [newItem, setNewItem] = useState({title: 'test', description: '', done: false} as NewItem);
-    const [currentItem, setCurrentItem] = useState({id: '', title: 'test', description: '', done: false} as ToDoItem);
+    // const [currentItem, setCurrentItem] = useState({id: '', title: 'test', description: '', done: false} as ToDoItem);
 
     const [titleField, setTitleField] = useState('');
     const [descriptionField, setDescriptionField] = useState('');
@@ -16,18 +16,29 @@ export default function ToDoList() {
     const getAll = () => {
         fetch('http://localhost:8080/todoitems/getall')
             .then(response => response.json())
-            .then((list: Array<ToDoItem>) => {
-                setToDoList(list)
-            })
+            .then((list: Array<ToDoItem>) => setToDoList(list))
             .catch(() => console.log('oopsie - getAll'))
+        setSearchTerm('')
     }
+
     const getAllNotDone = () => {
         fetch('http://localhost:8080/todoitems/getallnotdone')
             .then(response => response.json())
-            .then((list: Array<ToDoItem>) => {
-                setToDoList(list)
-            })
+            .then((list: Array<ToDoItem>) => setToDoList(list))
             .catch(() => console.log('oopsie - getAllNotDone'))
+        setSearchTerm('')
+    }
+
+    const getMatchingItems = (input: string) => {
+        if (input === '') {
+            return getAll();
+        } else {
+            fetch('http://localhost:8080/todoitems/'+input)
+                .then(response => response.json())
+                .then((list: Array<ToDoItem>) => setToDoList(list))
+                .catch(() => console.log('oopsie - search'))
+        }
+        setSearchTerm('')
     }
 
     const addItem = (item: NewItem) => {
@@ -53,21 +64,7 @@ export default function ToDoList() {
 
     useEffect(() => getAll(), [])
 
-    const getMatchingItems = (input: string) => {
-        if (input === '') {
-            getAll()
-        } else {
-            fetch('http://localhost:8080/todoitems/'+input)
-                .then(response => response.json())
-                .then((list: Array<ToDoItem>) => {
-                    setToDoList(list)
-                })
-                .catch(() => console.log('oopsie - search'))
-        }
-        setSearchTerm(input)
-    }
-
-    const changeItem = (input: string) => {
+/*    const changeItem = (input: string) => {
         fetch('http://localhost:8080/todoitems/'+input, {
             method: 'PUT',
             body: JSON.stringify(currentItem),
@@ -76,11 +73,9 @@ export default function ToDoList() {
             }
         })
             .then(response => response.json())
-            .then((list: Array<ToDoItem>) => {
-                setToDoList(list)
-            })
+            .then((list: Array<ToDoItem>) => setToDoList(list))
             .catch(() => console.log('oopsie - changeItem'))
-    }
+    }*/
 
     const changeNewItemTitle = (input: string) => {
         setNewItem({
@@ -97,7 +92,6 @@ export default function ToDoList() {
         setDescriptionField(input)
     }
 
-
     return <div><h1 id='title-to-do-list'>To-Do-Liste</h1>
 
         <button className='getall-button' onClick={getAll}>Alle anzeigen</button>
@@ -112,7 +106,11 @@ export default function ToDoList() {
                    onChange={typed => changeNewItemDescription(typed.target.value)}
             />
 
-            <button className='additem-button' onClick={() => {addItem(newItem); setTitleField(''); setDescriptionField('')}}>
+            <button className='additem-button' onClick={() => {
+                addItem(newItem);
+                setTitleField('');
+                setDescriptionField('')
+            }}>
                 Neues To-Do anlegen
             </button>
         </div>
