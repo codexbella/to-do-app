@@ -40,6 +40,9 @@
 #x-for-delete {
     color: red;
 }
-#checkmark {
+#checkmark-done {
     color: green;
+}
+#checkmark-not-done {
+    color: black;
 }
