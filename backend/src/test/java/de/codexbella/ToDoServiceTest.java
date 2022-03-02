@@ -23,7 +23,9 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        assertEquals(testToDos, testToDoService.getToDoList());
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
+
+        assertEquals(expectedToDoList, testToDoService.getToDoList());
     }
     @Test
     void shouldReturnMatchingToDoItemsByTitle() {
@@ -64,7 +66,8 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.setAsDone(testToDo3);
+        testToDo3.setDone(true);
+        testToDoService.changeItem(testToDo3);
 
         ToDoItem resultingToDo = testToDoService.getToDoList().stream().findFirst().get();
 
@@ -80,7 +83,8 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.setAsNotDone(testToDo3);
+        testToDo3.setDone(false);
+        testToDoService.changeItem(testToDo3);
 
         ToDoItem resultingToDo = testToDoService.getToDoList().stream().findFirst().get();
 
@@ -97,7 +101,9 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        assertEquals(List.of(testToDo1, testToDo3), testToDoService.getAllItemsNotDone());
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo3);
+
+        assertEquals(expectedToDoList, testToDoService.getAllItemsNotDone());
     }
     @Test
     void shouldAddNewToDoItem() {
@@ -115,17 +121,14 @@ class ToDoServiceTest {
 
         testToDoService.addItem(testToDo3);
 
-        List<ToDoItem> expectedToDoList = new ArrayList<>();
-        expectedToDoList.add(testToDo1);
-        expectedToDoList.add(testToDo2);
-        expectedToDoList.add(testToDo3);
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
 
         List<ToDoItem> actualToDoList = testToDoService.getToDoList();
 
         assertEquals(expectedToDoList, actualToDoList);
     }
     @Test
-    void shouldNotAddNewToDoItemBecauseAlreadyInList() {
+    void shouldNotAddNewToDoItemBecauseTitleAlreadyInList() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
         ToDoItem testToDo3 = new ToDoItem("Impfung");
@@ -138,9 +141,12 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.addItem(testToDo3);
+        ToDoItem testToDo4 = new ToDoItem("Impfung");
+        testToDoService.addItem(testToDo4);
 
-        assertEquals(testToDos, testToDoService.getToDoList());
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
+
+        assertEquals(expectedToDoList, testToDoService.getToDoList());
     }
     @Test
     void shouldChangeItemTitle() {
@@ -156,12 +162,13 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.setTitle(testToDo3, "Masern-Impfung");
+        testToDo3.setTitle("Masern-Impfung");
+        testToDoService.changeItem(testToDo3);
 
         assertEquals("Masern-Impfung", testToDoService.getMatchingToDoItems("Impfung").get(0).getTitle());
     }
     @Test
-    void shouldNotChangeItemTitleBecauseDuplicate() {
+    void shouldNotChangeItemTitleBecauseDuplicateTitle() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
         ToDoItem testToDo3 = new ToDoItem("Impfung");
@@ -174,9 +181,13 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        List<ToDoItem> setTitle = testToDoService.setTitle(testToDo3, "Fenster putzen");
+        ToDoItem testToDo3Duplicate = new ToDoItem("Fenster putzen", testToDo3.getDescription(), testToDo3.isDone());
+        testToDo3Duplicate.setId(testToDo3.getId());
+        List<ToDoItem> listAfterAttemptedTitleChange = testToDoService.changeItem(testToDo3);
 
-        assertEquals("Impfung", testToDoService.getMatchingToDoItems("impf").get(0).getTitle());
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
+
+        assertEquals(expectedToDoList, listAfterAttemptedTitleChange);
     }
     @Test
     void shouldChangeItemDescription() {
@@ -192,12 +203,13 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.setDescription(testToDo3, "Keuchhusten-Tetanus-Diphterie");
+        testToDo3.setDescription("Keuchhusten-Tetanus-Diphterie");
+        testToDoService.changeItem(testToDo3);
 
         assertEquals("Keuchhusten-Tetanus-Diphterie", testToDoService.getMatchingToDoItems("Impfung").get(0).getDescription());
     }
     @Test
-    void shouldNotWorkBecauseNoSuchItemToSetDescriptionOf() {
+    void shouldNotWorkBecauseNoSuchItemToChangeDescriptionOf() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
         ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
@@ -209,9 +221,18 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        List<ToDoItem> descriptionSet = testToDoService.setDescription(testToDo3, "Keuchhusten-Tetanus-Diphterie");
+        ToDoItem testToDo3changed = new ToDoItem("Impfung", "");
+        testToDo3changed.setId(testToDo3.getId());
+        System.out.println(testToDos);
 
-        assertEquals(testToDos, testToDoService.getToDoList());
+        testToDoService.changeItem(testToDo3changed);
+        System.out.println(testToDos);
+
+
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2);
+        System.out.println(expectedToDoList);
+
+        assertEquals(expectedToDoList, testToDoService.getToDoList());
     }
     @Test
     void shouldDeleteItem() {
@@ -227,13 +248,11 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        testToDoService.deleteItem(testToDo2);
+        testToDoService.deleteItem(testToDo2.getId());
 
-        List<ToDoItem> expected = new ArrayList<>();
-        expected.add(testToDo1);
-        expected.add(testToDo3);
+        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo3);
 
-        assertEquals(expected, testToDoService.getToDoList());
+        assertEquals(expectedToDoList, testToDoService.getToDoList());
     }
     @Test
     void shouldAddNewToDoItemWithMock() {

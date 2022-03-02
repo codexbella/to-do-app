@@ -39,43 +39,13 @@ public class ToDoService {
         return getToDoList();
     }
 
-    public List<ToDoItem> setTitle(ToDoItem toDoItem, String title) {
-        toDoRepository.setTitle(toDoItem, title);
+    public List<ToDoItem> changeItem(ToDoItem toDoItemChanged) {
+        toDoRepository.changeItem(toDoItemChanged);
         return getToDoList();
     }
 
-    public List<ToDoItem> setDescription(ToDoItem toDoItem, String description) {
-        toDoRepository.setDescription(toDoItem, description);
+    public List<ToDoItem> deleteItem(String id) {
+        toDoRepository.deleteItem(id);
         return getToDoList();
     }
-
-    public List<ToDoItem> deleteItem(ToDoItem toDoItem) {
-        toDoRepository.deleteItem(toDoItem);
-        return getToDoList();
-    }
-
-    public List<ToDoItem> setAsDone(ToDoItem toDoItem) {
-        List<ToDoItem> toDoList = toDoRepository.getToDoList();
-            for (int i = 0; i < toDoList.size(); i++) {
-                ToDoItem currentItem = toDoList.get(i);
-                if (currentItem.equals(toDoItem)) {
-                    currentItem.setDone(true);
-                    return toDoList;
-                }
-            }
-        return toDoList;
-    }
-
-    public List<ToDoItem> setAsNotDone(ToDoItem toDoItem) {
-        List<ToDoItem> toDoList = toDoRepository.getToDoList();
-            for (int i = 0; i < toDoList.size(); i++) {
-                ToDoItem currentItem = toDoList.get(i);
-                if (currentItem.equals(toDoItem)) {
-                    currentItem.setDone(false);
-                    return toDoList;
-                }
-            }
-        return toDoList;
-    }
-
 }

@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import ToDoList from "./ToDoList";
+import './App.css';
+import React from 'react';
 
 function App() {
-
-    const [greeting, setGreeting] = useState('')
-
-    useEffect(() => {
-        fetch('/api/greeting', {
-            method: 'GET',
-            headers: {
-                'Accept': 'text/plain'
-            }
-        })
-            .then(response => response.text())
-            .then(text => setGreeting(text))
-            .catch(err => setGreeting('Da ist etwas schief gelaufen'));
-    }, []);
-
     return (
-        <div>
-            {greeting}
-        </div>
-    );
+    <div className="App">
+        <ToDoList />
+    </div>
+);
 }
 
 export default App;
