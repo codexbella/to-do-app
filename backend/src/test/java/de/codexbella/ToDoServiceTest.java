@@ -5,7 +5,6 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -263,7 +262,7 @@ class ToDoServiceTest {
 
         testToDoService.addItem(testToDo3);
 
-        verify(mockToDoRepo).addItem(testToDo3);
+        verify(mockToDoRepo).add(testToDo3);
     }
     @Test
     void shouldReturnMatchingToDoItemsByTitleWithMock() {
@@ -271,7 +270,7 @@ class ToDoServiceTest {
 
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
-        when(mockToDoRepo.getMatchingToDoItems("fenster")).thenReturn(List.of(testToDo2));
+        when(testToDoService.getMatchingToDoItems("fenster")).thenReturn(List.of(testToDo2));
 
         assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
     }
