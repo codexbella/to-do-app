@@ -2,6 +2,7 @@ import {ToDoItem} from './itemModel';
 import './ToDoGalleryItem.css';
 import pen from './images/edit-pen.png';
 import {useState} from "react";
+import { useTranslation } from 'react-i18next';
 
 interface ToDoGalleryItemProps {
     toDoItem: ToDoItem;
@@ -11,6 +12,7 @@ interface ToDoGalleryItemProps {
 export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
     const [editMode, setEditMode] = useState(false);
     const [currentItem, setCurrentItem] = useState(props.toDoItem);
+    const { t } = useTranslation();
 
     const deleteToDo = (id: string) => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${id}`, {
@@ -20,7 +22,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 }
-                throw new Error('Fehlercode: '+response.status)
+                throw new Error(`${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => props.onChange(list))
             .catch(e => console.log('deleteitem: '+e.message))
@@ -40,7 +42,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 }
-                throw new Error('Fehlercode: '+response.status)
+                throw new Error(`${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => props.onChange(list))
             .catch(e => console.log('changeStatus: '+e.message))
@@ -64,7 +66,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
             {
                 editMode?
                     <div>
-                        <input className='new-to-do-item-title' type='text' placeholder='Titel' value={currentItem.title}
+                        <input className='new-to-do-item-title' type='text' placeholder={t('title-field-placeholder')} value={currentItem.title}
                                onChange={typed => setCurrentItem({
                                    id: currentItem.id,
                                    title: typed.target.value,
@@ -72,7 +74,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                                    done: currentItem.done
                                })}
                         />
-                        <input className='new-to-do-item-description' type='text' placeholder='Beschreibung' value={currentItem.description}
+                        <input className='new-to-do-item-description' type='text' placeholder={t('description-field-placeholder')} value={currentItem.description}
                                onChange={typed => setCurrentItem({
                                    id: currentItem.id,
                                    title: currentItem.title,
@@ -91,7 +93,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                         <span className="gallery-item-description">{ props.toDoItem.description }</span>
                     </div>
             }
-            <img className="item-edit-pen" src={pen} alt='Bearbeiten' onClick={() => setEditMode(true)}/>
+            <img className="item-edit-pen" src={pen} alt={t('edit')} onClick={() => setEditMode(true)}/>
             <span id={props.toDoItem.done ? 'checkmark-done': 'checkmark-not-done'}
                   onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
             <span id="x-for-delete"

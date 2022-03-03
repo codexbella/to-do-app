@@ -1,0 +1,12 @@
+{
+  "error": "Error code",
+  "title": "To-Do List",
+  "show-all": "Show all",
+  "show-all-not-done": "Show all not done",
+  "title-field-placeholder": "Title",
+  "description-field-placeholder": "Description",
+  "new-item": "Add new to-do",
+  "filter-list": "Filter list",
+  "search-term": "Search term",
+  "edit": "Edit"
+}

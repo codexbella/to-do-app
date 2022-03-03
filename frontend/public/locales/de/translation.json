@@ -1,0 +1,12 @@
+{
+  "error": "Fehlercode",
+  "title": "To-Do-Liste",
+  "show-all": "Alle anzeigen",
+  "show-all-not-done": "Offene anzeigen",
+  "title-field-placeholder": "Titel",
+  "description-field-placeholder": "Beschreibung",
+  "new-item": "Neues To-Do anlegen",
+  "filter-list": "Liste filtern",
+  "search-term": "Suchbegriff",
+  "edit": "Bearbeiten"
+}
