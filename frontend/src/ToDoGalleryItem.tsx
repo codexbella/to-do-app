@@ -10,7 +10,7 @@ interface ToDoGalleryItemProps {
 export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
 
     const deleteToDo = (id: string) => {
-        fetch('http://localhost:8080/todoitems/'+id, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${id}`, {
             method: 'DELETE'
         })
             .then(response => {
@@ -26,7 +26,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
     const changeStatus = (itemToChange: ToDoItem) => {
         const itemId = itemToChange.id;
         const changedItem = {id: itemId, title: itemToChange.title, description: itemToChange.description, done: !itemToChange.done};
-        fetch('http://localhost:8080/todoitems/'+itemId, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${itemId}`, {
             method: 'PUT',
             body: JSON.stringify(changedItem),
             headers: {
@@ -43,12 +43,27 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
             .catch(e => console.log('changeStatus: '+e.message))
     }
 
+    /*    const changeItem = (input: string) => {
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`, {
+            method: 'PUT',
+            body: JSON.stringify(currentItem),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then((list: Array<ToDoItem>) => setToDoList(list))
+            .catch(() => console.log('oopsie - changeItem'))
+    }*/
+
     return (
         <span className={props.toDoItem.done ? 'to-do-item-done': 'to-do-item-not-done'}>
             <div className="to-do-item-title">{ props.toDoItem.title }</div>
             <span className="gallery-item-description">{ props.toDoItem.description }</span>
+
             <img className="item-edit-pen" src={pen} alt='Bearbeiten'/>
-            <span id={props.toDoItem.done ? 'checkmark-done': 'checkmark-not-done'} onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
+            <span id={props.toDoItem.done ? 'checkmark-done': 'checkmark-not-done'}
+                  onClick={() => changeStatus(props.toDoItem)}>&#10004;</span>
             <span id="x-for-delete" onClick={() => deleteToDo(props.toDoItem.id)} >&#10005;</span>
         </span>
     )

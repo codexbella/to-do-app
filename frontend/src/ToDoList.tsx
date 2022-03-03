@@ -14,7 +14,7 @@ export default function ToDoList() {
     const [descriptionField, setDescriptionField] = useState('');
 
     const getAll = () => {
-        fetch('http://localhost:8080/todoitems/getall')
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
             .then(response => response.json())
             .then((list: Array<ToDoItem>) => setToDoList(list))
             .catch(() => console.log('oopsie - getAll'))
@@ -22,7 +22,7 @@ export default function ToDoList() {
     }
 
     const getAllNotDone = () => {
-        fetch('http://localhost:8080/todoitems/getallnotdone')
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)
             .then(response => response.json())
             .then((list: Array<ToDoItem>) => setToDoList(list))
             .catch(() => console.log('oopsie - getAllNotDone'))
@@ -33,7 +33,7 @@ export default function ToDoList() {
         if (input === '') {
             return getAll();
         } else {
-            fetch('http://localhost:8080/todoitems/'+input)
+            fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`)
                 .then(response => response.json())
                 .then((list: Array<ToDoItem>) => setToDoList(list))
                 .catch(() => console.log('oopsie - search'))
@@ -42,7 +42,7 @@ export default function ToDoList() {
     }
 
     const addItem = (item: NewItem) => {
-        fetch('http://localhost:8080/todoitems/additem', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/additem`, {
             method: 'POST',
             body: JSON.stringify(item),
             headers: {
@@ -64,18 +64,7 @@ export default function ToDoList() {
 
     useEffect(() => getAll(), [])
 
-/*    const changeItem = (input: string) => {
-        fetch('http://localhost:8080/todoitems/'+input, {
-            method: 'PUT',
-            body: JSON.stringify(currentItem),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then((list: Array<ToDoItem>) => setToDoList(list))
-            .catch(() => console.log('oopsie - changeItem'))
-    }*/
+
 
     const changeNewItemTitle = (input: string) => {
         setNewItem({
