@@ -8,7 +8,6 @@ export default function ToDoList() {
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
 
     const [newItem, setNewItem] = useState({title: 'test', description: '', done: false} as NewItem);
-    // const [currentItem, setCurrentItem] = useState({id: '', title: 'test', description: '', done: false} as ToDoItem);
 
     const [titleField, setTitleField] = useState('');
     const [descriptionField, setDescriptionField] = useState('');
