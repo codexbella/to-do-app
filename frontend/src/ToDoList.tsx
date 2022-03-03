@@ -6,7 +6,6 @@ import './ToDoList.css';
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
-
     const [newItem, setNewItem] = useState({title: 'test', description: '', done: false} as NewItem);
 
     const [titleField, setTitleField] = useState('');

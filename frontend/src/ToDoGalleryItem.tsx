@@ -1,4 +1,4 @@
-import {NewItem, ToDoItem} from './itemModel';
+import {ToDoItem} from './itemModel';
 import './ToDoGalleryItem.css';
 import pen from './images/edit-pen.png';
 import {useState} from "react";
@@ -49,7 +49,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
         const changeItem = (item: ToDoItem) => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${props.toDoItem.id}`, {
             method: 'PUT',
-            body: JSON.stringify(currentItem),
+            body: JSON.stringify(item),
             headers: {
                 'Content-Type': 'application/json'
             }
