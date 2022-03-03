@@ -1,6 +1,6 @@
-import {ToDoItem} from './itemModel';
+import {ToDoItem} from '../itemModel';
 import './ToDoGalleryItem.css';
-import pen from './images/edit-pen.png';
+import pen from '../images/edit-pen.png';
 import {useState} from "react";
 import { useTranslation } from 'react-i18next';
 

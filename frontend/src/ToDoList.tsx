@@ -1,17 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {ToDoItem} from "./itemModel";
-import ToDoGalleryItem from "./ToDoGalleryItem";
+import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
 import './ToDoList.css';
 import { useTranslation } from 'react-i18next';
+import NewItem from "./newItem/NewItem";
 
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
-    const [newItemTitle, setNewItemTitle] = useState('test');
-    const [newItemDescription, setNewItemDescription] = useState('');
-
-    const [titleField, setTitleField] = useState('');
-    const [descriptionField, setDescriptionField] = useState('');
 
     const { t } = useTranslation();
 
@@ -43,34 +39,6 @@ export default function ToDoList() {
         setSearchTerm('')
     }
 
-    const addItem = () => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/additem`, {
-            method: 'POST',
-            body: JSON.stringify({
-                title: newItemTitle,
-                description: newItemDescription,
-                done: false
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                }
-                throw new Error(`${t('error')}: ${response.status}`)
-            })
-            .then((list: Array<ToDoItem>) => {
-                setToDoList(list)
-                setNewItemTitle('test')
-                setNewItemDescription('')
-                setTitleField('')
-                setDescriptionField('')
-            })
-            .catch(e => console.log('addItem: '+e.message))
-    }
-
     useEffect(() => getAll(), [])
 
     return <div><h1 id='title-to-do-list'>{t('title')}</h1>
@@ -78,13 +46,7 @@ export default function ToDoList() {
         <button className='getall-button' onClick={getAll}>{t('show-all')}</button>
         <button className='getallnotdone-button' onClick={getAllNotDone}>{t('show-all-not-done')}</button>
 
-        <div>
-            <input className='new-to-do-item-title' type='text' placeholder={t('title-field-placeholder')}
-                   value={titleField} onChange={typed => {setNewItemTitle(typed.target.value); setTitleField(typed.target.value)}}/>
-            <input className='new-to-do-item-description' type='text' placeholder={t('description-field-placeholder')}
-                   value={descriptionField} onChange={typed => {setNewItemDescription(typed.target.value); setTitleField(typed.target.value)}}/>
-            <button className='additem-button' onClick={() => addItem()}>{t('new-item')}</button>
-        </div>
+        <NewItem onChange={setToDoList}/>
 
         <div>
             <h3>{t('filter-list')}:</h3>
