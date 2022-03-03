@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class ToDoRepository {
     }
 
     public boolean addItem(ToDoItem toDoItem) {
-        if (toDoList.stream().noneMatch(item -> item.getTitle().equals(toDoItem.getTitle()))) {
+        if (toDoList.stream().noneMatch(item -> item.getTitle().equalsIgnoreCase(toDoItem.getTitle()))) {
             return toDoList.add(toDoItem);
         }
         return false;
@@ -51,7 +52,7 @@ public class ToDoRepository {
         Optional<ToDoItem> itemToChangeOptional = toDoList.stream().filter(item -> item.getId().equals(toDoItemChanged.getId())).findFirst();
         if (itemToChangeOptional.isPresent()) {
                 ToDoItem itemToChange = itemToChangeOptional.get();
-            if (toDoList.stream().filter(item -> item.getTitle().equals(toDoItemChanged.getTitle())).findFirst().isEmpty()) {
+            if (toDoList.stream().filter(item -> item.getTitle().equalsIgnoreCase(toDoItemChanged.getTitle())).findFirst().isEmpty()) {
                 itemToChange.setTitle(toDoItemChanged.getTitle());
             }
                 itemToChange.setDescription(toDoItemChanged.getDescription());

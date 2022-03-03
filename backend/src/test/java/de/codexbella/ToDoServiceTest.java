@@ -141,7 +141,7 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        ToDoItem testToDo4 = new ToDoItem("Impfung");
+        ToDoItem testToDo4 = new ToDoItem("IMpfung");
         testToDoService.addItem(testToDo4);
 
         List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
@@ -181,7 +181,7 @@ class ToDoServiceTest {
         ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
 
-        ToDoItem testToDo3Duplicate = new ToDoItem("Fenster putzen", testToDo3.getDescription(), testToDo3.isDone());
+        ToDoItem testToDo3Duplicate = new ToDoItem("Fenster Putzen", testToDo3.getDescription(), testToDo3.isDone());
         testToDo3Duplicate.setId(testToDo3.getId());
         List<ToDoItem> listAfterAttemptedTitleChange = testToDoService.changeItem(testToDo3);
 
