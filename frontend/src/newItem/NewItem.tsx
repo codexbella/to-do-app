@@ -43,7 +43,7 @@ export default function NewItem(props: NewItemProps) {
                 setDescriptionField('')
                 props.onError('')
             })
-            .catch(e => {console.log(`${t('add-error')}: ${e.message}`); props.onError(e.message)})
+            .catch(e => {console.log(e.message); props.onError(e.message)})
     }
 
     return (

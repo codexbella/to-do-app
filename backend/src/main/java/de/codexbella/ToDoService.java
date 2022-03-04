@@ -32,11 +32,8 @@ public class ToDoService {
     }
 
     public List<ToDoItem> getMatchingToDoItems(String searchTerm) {
-        Stream<ToDoItem> toDoItemsWithSearchTerm = toDoRepository.getToDoList().stream()
-                .filter(todo -> todo.getTitle().toLowerCase().contains(searchTerm.toLowerCase()));
-        Stream<ToDoItem> Notdone = toDoItemsWithSearchTerm.filter(item -> !item.isDone());
-        Stream<ToDoItem> done = toDoItemsWithSearchTerm.filter(item -> item.isDone());
-        return Stream.concat(Notdone, done).toList();
+        return getToDoList().stream()
+                .filter(todo -> todo.getTitle().toLowerCase().contains(searchTerm.toLowerCase())).toList();
     }
 
     public List<ToDoItem> getAllItemsNotDone() {

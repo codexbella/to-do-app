@@ -23,7 +23,7 @@ export default function ToDoList() {
                 throw new Error(`${t('get-all-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
-            .catch(e => {console.log(`${t('get-all-error')}: ${e.message}`); setErrorMessage(e.message)})
+            .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         setSearchTerm('')
     }
 
@@ -36,7 +36,7 @@ export default function ToDoList() {
                 throw new Error(`${t('get-notdone-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
-            .catch(e => {console.log(`${t('get-notdone-error')}: ${e.message}`); setErrorMessage(e.message)})
+            .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         setSearchTerm('')
     }
 
@@ -52,7 +52,7 @@ export default function ToDoList() {
                     throw new Error(`${t('get-matching-error')}, ${t('error')}: ${response.status}`)
                 })
                 .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
-                .catch(e => {console.log(`${t('get-matching-error')}: ${e.message}`); setErrorMessage(e.message)})
+                .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         }
         setSearchTerm('')
     }
@@ -62,16 +62,15 @@ export default function ToDoList() {
         <button className='getall-button' onClick={getAll}>{t('show-all')}</button>
         <button className='getallnotdone-button' onClick={getAllNotDone}>{t('show-all-not-done')}</button>
 
-        <NewItem onChange={setToDoList} data-testid='error' onError={setErrorMessage}/>
+        <NewItem onChange={setToDoList} onError={setErrorMessage}/>
         {errorMessage ? <div data-testid='error'>{errorMessage}</div> : <div>{t('no-error')}</div>}
         <div>
             <h3>{t('filter-list')}:</h3>
-            <input className='search-field' type='text' placeholder={t('search-term')} value={searchTerm} data-testid='search-field'
-                   onChange={typed => getMatchingItems(typed.target.value)}/>
+            <input className='search-field' type='text' placeholder={t('search-term')} value={searchTerm} onChange={typed => getMatchingItems(typed.target.value)}/>
         </div>
 
         <div id="to-do-items-wrapper">
-            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} data-testid="to-do-gallery-item" onChange={setToDoList}/>)}
+            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} onChange={setToDoList}/>)}
         </div>
     </div>
 }
