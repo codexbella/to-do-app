@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {ToDoItem} from "./itemModel";
 import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
 import './ToDoList.css';
-//import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import NewItem from "./newItem/NewItem";
 
 export default function ToDoList() {
@@ -10,8 +10,7 @@ export default function ToDoList() {
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
     const [errorMessage, setErrorMessage] = useState('');
 
-    //const { t } = useTranslation();
-    const t = (s: string) => s;
+    const { t } = useTranslation();
     
     useEffect(() => getAll(), [])
     
@@ -64,7 +63,7 @@ export default function ToDoList() {
         <button className='getallnotdone-button' onClick={getAllNotDone}>{t('show-all-not-done')}</button>
 
         <NewItem onChange={setToDoList} data-testid='error' onError={setErrorMessage}/>
-        {errorMessage ? <div>{errorMessage}</div> : <div>{t('no-error')}</div>}
+        {errorMessage ? <div data-testid='error'>{errorMessage}</div> : <div>{t('no-error')}</div>}
         <div>
             <h3>{t('filter-list')}:</h3>
             <input className='search-field' type='text' placeholder={t('search-term')} value={searchTerm} data-testid='search-field'
@@ -72,7 +71,7 @@ export default function ToDoList() {
         </div>
 
         <div id="to-do-items-wrapper">
-            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} data-testid='to-do-gallery-item' onChange={setToDoList}/>)}
+            {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} data-testid="to-do-gallery-item" onChange={setToDoList}/>)}
         </div>
     </div>
 }
