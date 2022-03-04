@@ -13,17 +13,27 @@ export default function ToDoList() {
 
     const getAll = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error(`${t('get-all-error')}, ${t('error')}: ${response.status}`)
+            })
             .then((list: Array<ToDoItem>) => setToDoList(list))
-            .catch(() => console.log('oopsie - getAll'))
+            .catch(e => console.log(`${t('get-all-error')}: `+e.message))
         setSearchTerm('')
     }
 
     const getAllNotDone = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error(`${t('get-notdone-error')}, ${t('error')}: ${response.status}`)
+            })
             .then((list: Array<ToDoItem>) => setToDoList(list))
-            .catch(() => console.log('oopsie - getAllNotDone'))
+            .catch(e => console.log(`${t('get-notdone-error')}: `+e.message))
         setSearchTerm('')
     }
 
@@ -32,9 +42,14 @@ export default function ToDoList() {
             return getAll();
         } else {
             fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    }
+                    throw new Error(`${t('get-matching-error')}, ${t('error')}: ${response.status}`)
+                })
                 .then((list: Array<ToDoItem>) => setToDoList(list))
-                .catch(() => console.log('oopsie - search'))
+                .catch(e => console.log(`${t('get-matching-error')}: `+e.message))
         }
         setSearchTerm('')
     }

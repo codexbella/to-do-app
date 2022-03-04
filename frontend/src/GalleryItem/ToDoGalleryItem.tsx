@@ -22,10 +22,10 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 }
-                throw new Error(`${t('error')}: ${response.status}`)
+                throw new Error(`${t('delete-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => props.onChange(list))
-            .catch(e => console.log('deleteitem: '+e.message))
+            .catch(e => console.log(`${t('delete-error')}: `+e.message))
     }
 
     const changeStatus = (itemToChange: ToDoItem) => {
@@ -42,10 +42,10 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 }
-                throw new Error(`${t('error')}: ${response.status}`)
+                throw new Error(`${t('change-status-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => props.onChange(list))
-            .catch(e => console.log('changeStatus: '+e.message))
+            .catch(e => console.log(`${t('change-status-error')}: `+e.message))
     }
 
         const changeItem = (item: ToDoItem) => {
@@ -56,9 +56,14 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
                 'Content-Type': 'application/json'
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error(`${t('change-item-error')}, ${t('error')}: ${response.status}`)
+            })
             .then((list: Array<ToDoItem>) => props.onChange(list))
-            .catch(() => console.log('oopsie - changeItem'))
+            .catch(e => console.log(`${t('change-item-error')}: `+e.message))
     }
 
     return (

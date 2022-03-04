@@ -32,7 +32,7 @@ export default function NewItem(props: NewItemProps) {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 }
-                throw new Error(`${t('error')}: ${response.status}`)
+                throw new Error(`${t('add-error')}, ${t('error')}: ${response.status}`)
             })
             .then((list: Array<ToDoItem>) => {
                 props.onChange(list)
@@ -41,7 +41,7 @@ export default function NewItem(props: NewItemProps) {
                 setTitleField('')
                 setDescriptionField('')
             })
-            .catch(e => console.log('addItem: '+e.message))
+            .catch(e => console.log(`${t('add-error')}: `+e.message))
     }
 
     return (

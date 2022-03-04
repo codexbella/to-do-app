@@ -1,5 +1,12 @@
 {
   "error": "Fehlercode",
+  "get-all-error": "Fehler beim Laden aller Elemente",
+  "get-notdone-error": "Fehler beim Laden aller nicht abgehakten Elemente",
+  "get-matching-error": "Fehler beim Laden der gesuchten Elemente",
+  "delete-error": "Löschen nicht möglich",
+  "change-status-error": "Änderung des Status fehlgeschlagen",
+  "change-item-error": "Änderung des Elements fehlgeschlagen",
+  "add-error": "Hinzufügen nicht möglich",
   "title": "To-Do-Liste",
   "show-all": "Alle anzeigen",
   "show-all-not-done": "Offene anzeigen",

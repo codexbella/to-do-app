@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ToDoService {
@@ -25,14 +26,17 @@ public class ToDoService {
     }
 
     public List<ToDoItem> getToDoList() {
-        return toDoRepository.getToDoList();
+        Stream<ToDoItem> Notdone = toDoRepository.getToDoList().stream().filter(item -> !item.isDone());
+        Stream<ToDoItem> done = toDoRepository.getToDoList().stream().filter(item -> item.isDone());
+        return Stream.concat(Notdone, done).toList();
     }
 
     public List<ToDoItem> getMatchingToDoItems(String searchTerm) {
-        List<ToDoItem> toDoItemsWithSearchTerm = toDoRepository.getToDoList().stream()
-                .filter(todo -> todo.getTitle().toLowerCase().contains(searchTerm.toLowerCase()))
-                .collect(Collectors.toList());
-        return toDoItemsWithSearchTerm;
+        Stream<ToDoItem> toDoItemsWithSearchTerm = toDoRepository.getToDoList().stream()
+                .filter(todo -> todo.getTitle().toLowerCase().contains(searchTerm.toLowerCase()));
+        Stream<ToDoItem> Notdone = toDoItemsWithSearchTerm.filter(item -> !item.isDone());
+        Stream<ToDoItem> done = toDoItemsWithSearchTerm.filter(item -> item.isDone());
+        return Stream.concat(Notdone, done).toList();
     }
 
     public List<ToDoItem> getAllItemsNotDone() {

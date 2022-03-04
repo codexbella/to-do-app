@@ -1,5 +1,12 @@
 {
   "error": "Error code",
+  "get-all-error": "Error on loading all items",
+  "get-notdone-error": "Error on loading all items not done",
+  "get-matching-error": "Error on loading all matching items",
+  "delete-error": "Can not be deleted",
+  "change-status-error": "Error on status change",
+  "change-item-error": "Error on changing item",
+  "add-error": "Can not be added",
   "title": "To-Do List",
   "show-all": "Show all",
   "show-all-not-done": "Show all not done",
