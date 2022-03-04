@@ -54,7 +54,7 @@ export default function ToDoList() {
                 .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
                 .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         }
-        setSearchTerm('')
+        setSearchTerm(input)
     }
     
     return <div><h1 id='title-to-do-list'>{t('title')}</h1>
