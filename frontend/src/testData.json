@@ -1,0 +1,32 @@
+[
+  {
+    "id": "200755a4-cf46-430f-93a5-e6fb085e63e6",
+    "title": "Fenster putzen",
+    "description": "",
+    "done": false
+  },
+  {
+    "id": "c93a47b7-14eb-4de4-8392-95f3bd892499",
+    "title": "Pflanzen umtopfen",
+    "description": "",
+    "done": false
+  },
+  {
+    "id": "c8b15d64-b6c7-49b8-89c9-978acb977658",
+    "title": "Tür reparieren",
+    "description": "",
+    "done": false
+  },
+  {
+    "id": "73defbf4-5979-4536-ae92-043b8c959fc5",
+    "title": "Wäsche waschen",
+    "description": "",
+    "done": true
+  },
+  {
+    "id": "ef20d2d6-626c-4415-8332-522965ba5146",
+    "title": "Pflanzen gießen",
+    "description": "",
+    "done": true
+  }
+]

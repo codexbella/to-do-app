@@ -4,6 +4,7 @@ import {useTranslation} from "react-i18next";
 
 interface NewItemProps {
     onChange: (list: Array<ToDoItem>) => void;
+    onError: (message: string) => void;
 }
 
 export default function NewItem(props: NewItemProps) {
@@ -40,8 +41,9 @@ export default function NewItem(props: NewItemProps) {
                 setNewItemDescription('')
                 setTitleField('')
                 setDescriptionField('')
+                props.onError('')
             })
-            .catch(e => console.log(`${t('add-error')}: `+e.message))
+            .catch(e => {console.log(`${t('add-error')}: ${e.message}`); props.onError(e.message)})
     }
 
     return (

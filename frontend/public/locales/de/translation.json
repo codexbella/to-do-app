@@ -1,4 +1,5 @@
 {
+  "no-error": "Kein Fehler",
   "error": "Fehlercode",
   "get-all-error": "Fehler beim Laden aller Elemente",
   "get-notdone-error": "Fehler beim Laden aller nicht abgehakten Elemente",
