@@ -1,13 +1,6 @@
-#to-do-items-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: space-around;
-    gap: 10px 10px;
-}
-
 .to-do-item-not-done {
     padding: 5px;
-    border: 3px orange solid;
+    border: 3px #D96098 solid;
     border-radius: 5%;
     gap: 10px 10px;
     display: flex;
@@ -17,32 +10,16 @@
 }
 .to-do-item-done {
      padding: 5px;
-     border: 3px green solid;
+     border: 3px #24A19C solid;
      border-radius: 5%;
      gap: 10px 10px;
      display: flex;
      justify-content: center;
      flex-wrap: wrap;
      align-content: space-around;
- }
-
-.to-do-item-title {
-    font-variant: small-caps;
 }
-.gallery-item-description {
-
-}
-.item-edit-pen {
-    height: 15px;
+.image-edit-pen {
+    height: 20px;
     opacity: 60%;
-}
-
-#x-for-delete {
-    color: red;
-}
-#checkmark-done {
-    color: green;
-}
-#checkmark-not-done {
-    color: black;
+    cursor: pointer;
 }

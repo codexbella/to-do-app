@@ -57,20 +57,20 @@ export default function ToDoList() {
         setSearchTerm(input)
     }
     
-    return <div><h1 id='title-to-do-list'>{t('title')}</h1>
-
+    return <div>
+        <div className='margin-top-bottom'>
         <button className='getall-button' onClick={getAll}>{t('show-all')}</button>
         <button className='getallnotdone-button' onClick={getAllNotDone}>{t('show-all-not-done')}</button>
-
+        </div>
         <NewItem onChange={setToDoList} onError={setErrorMessage}/>
-        {errorMessage ? <div data-testid='error'>{errorMessage}</div> : <div>{t('no-error')}</div>}
-        <div>
-            <h3>{t('filter-list')}:</h3>
+        <div className='margin-top-bottom'>
+            <span className='color-light large'>{t('filter-list')}:</span>
             <input className='search-field' type='text' placeholder={t('search-term')} value={searchTerm} onChange={typed => getMatchingItems(typed.target.value)}/>
         </div>
 
-        <div id="to-do-items-wrapper">
+        <div className="to-do-items-wrapper margin-top-bottom">
             {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} onChange={setToDoList}/>)}
         </div>
+        <div className='color-light margin-top-bottom'>{errorMessage ? <div data-testid='error'>{errorMessage}</div> : <div>{t('no-error')}</div>}</div>
     </div>
 }
