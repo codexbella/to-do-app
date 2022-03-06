@@ -1,5 +1,5 @@
 import {ToDoItem} from "../itemModel";
-import React, {FormEvent, useEffect, useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {useTranslation} from "react-i18next";
 
 interface NewItemProps {
