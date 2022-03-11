@@ -26,7 +26,7 @@ class ToDoControllerIntegrationTest {
     @Test
     void integrationTest() {
         // shouldReturnEmptyListBecauseToDoItemNotInList
-        ResponseEntity<ToDoItem[]> responseGetEmptyList = restTemplate.getForEntity("/todoitems/tuedelue", ToDoItem[].class);
+        ResponseEntity<ToDoItem[]> responseGetEmptyList = restTemplate.getForEntity("/api/todoitems/tuedelue", ToDoItem[].class);
         Assertions.assertThat(Arrays.stream(responseGetEmptyList.getBody()).toList()).isEqualTo(List.of());
 
         // shouldAddNewToDoItem
@@ -35,7 +35,7 @@ class ToDoControllerIntegrationTest {
         List<ToDoItem> testToDos = new ArrayList<>();
         testToDos.add(testToDo1);
 
-        ResponseEntity<ToDoItem[]> responseAdding = restTemplate.postForEntity("/todoitems/additem", testToDo1, ToDoItem[].class);
+        ResponseEntity<ToDoItem[]> responseAdding = restTemplate.postForEntity("/api/todoitems/additem", testToDo1, ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(responseAdding.getBody()).toList()).isEqualTo(testToDos);
 
@@ -44,11 +44,11 @@ class ToDoControllerIntegrationTest {
         ToDoItem testToDo3 = new ToDoItem("Impfung");
         ToDoItem testToDo4 = new ToDoItem("Obi-Einkauf");
 
-        restTemplate.postForEntity("/todoitems/additem", testToDo2, ToDoItem[].class);
-        restTemplate.postForEntity("/todoitems/additem", testToDo3, ToDoItem[].class);
-        restTemplate.postForEntity("/todoitems/additem", testToDo4, ToDoItem[].class);
+        restTemplate.postForEntity("/api/todoitems/additem", testToDo2, ToDoItem[].class);
+        restTemplate.postForEntity("/api/todoitems/additem", testToDo3, ToDoItem[].class);
+        restTemplate.postForEntity("/api/todoitems/additem", testToDo4, ToDoItem[].class);
 
-        ResponseEntity<ToDoItem[]> responseGetMatching = restTemplate.getForEntity("/todoitems/eink", ToDoItem[].class);
+        ResponseEntity<ToDoItem[]> responseGetMatching = restTemplate.getForEntity("/api/todoitems/eink", ToDoItem[].class);
         Assertions.assertThat(Arrays.stream(responseGetMatching.getBody()).toList()).isEqualTo(List.of(testToDo1, testToDo4));
 
         // shouldReturnCompleteListOfToDoItems
@@ -56,15 +56,15 @@ class ToDoControllerIntegrationTest {
         testToDos.add(testToDo3);
         testToDos.add(testToDo4);
 
-        ToDoItem[] listAll = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAll = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAll).toList()).isEqualTo(testToDos);
         /*
         // shouldSetToDoItemAsDone
         testToDo3.setDone(true);
-        restTemplate.put("/todoitems/"+testToDo3.getId(), testToDo3);
+        restTemplate.put("/api/todoitems/"+testToDo3.getId(), testToDo3);
 
-        ToDoItem[] listDone = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listDone = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         testToDos.remove(testToDo3);
         testToDos.add(testToDo3);
@@ -72,22 +72,22 @@ class ToDoControllerIntegrationTest {
         Assertions.assertThat(Arrays.stream(listDone).toList()).isEqualTo(testToDos);
 
         // shouldReturnAllToDoItemsThatAreNotDone
-        ToDoItem[] listAllNotDone = restTemplate.getForObject("/todoitems/getallnotdone", ToDoItem[].class);
+        ToDoItem[] listAllNotDone = restTemplate.getForObject("/api/todoitems/getallnotdone", ToDoItem[].class);
         testToDos.remove(testToDo3);
 
         Assertions.assertThat(Arrays.stream(listAllNotDone).toList()).isEqualTo(testToDos);
 
         // shouldSetToDoItemAsNotDone
         testToDo3.setDone(false);
-        restTemplate.put("/todoitems/"+testToDo3.getId(), testToDo3);
+        restTemplate.put("/api/todoitems/"+testToDo3.getId(), testToDo3);
         testToDos.add(2, testToDo3);
 
-        ToDoItem[] listNotDone = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listNotDone = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listNotDone).toList()).isEqualTo(testToDos);
 
         // shouldNotAddNewToDoItemBecauseAlreadyInList
-        ResponseEntity<ToDoItem[]> responseNoDoubleAdding = restTemplate.postForEntity("/todoitems/additem", testToDo1, ToDoItem[].class);
+        ResponseEntity<ToDoItem[]> responseNoDoubleAdding = restTemplate.postForEntity("/api/todoitems/additem", testToDo1, ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(responseNoDoubleAdding.getBody()).toList()).isEqualTo(testToDos);
 
@@ -95,11 +95,11 @@ class ToDoControllerIntegrationTest {
         ToDoItem testToDo3changed1 = new ToDoItem("Masern-Impfung", testToDo3.getDescription(), testToDo3.isDone());
         testToDo3changed1.setId(testToDo3.getId());
 
-        restTemplate.put("/todoitems/"+testToDo3.getId(), testToDo3changed1);
+        restTemplate.put("/api/todoitems/"+testToDo3.getId(), testToDo3changed1);
 
         testToDo3.setTitle("Masern-Impfung");
 
-        ToDoItem[] listAfterTitleChange = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAfterTitleChange = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAfterTitleChange).toList()).isEqualTo(testToDos);
 
@@ -107,9 +107,9 @@ class ToDoControllerIntegrationTest {
         ToDoItem testToDo3changed2 = new ToDoItem("Fenster putzen", testToDo3.getDescription(), testToDo3.isDone());
         testToDo3changed2.setId(testToDo3.getId());
 
-        restTemplate.put("/todoitems/"+testToDo3.getId(), testToDo3changed2);
+        restTemplate.put("/api/todoitems/"+testToDo3.getId(), testToDo3changed2);
 
-        ToDoItem[] listAfterNoTitleChange = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAfterNoTitleChange = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAfterNoTitleChange).toList()).isEqualTo(testToDos);
 
@@ -117,10 +117,10 @@ class ToDoControllerIntegrationTest {
         ToDoItem testToDo3changed3 = new ToDoItem(testToDo3.getTitle(), "in 6 Monaten", testToDo3.isDone());
         testToDo3changed3.setId(testToDo3.getId());
 
-        restTemplate.put("/todoitems/"+testToDo3.getId(), testToDo3changed3);
+        restTemplate.put("/api/todoitems/"+testToDo3.getId(), testToDo3changed3);
         testToDo3.setDescription("in 6 Monaten");
 
-        ToDoItem[] listAfterDescriptionChange = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAfterDescriptionChange = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAfterDescriptionChange).toList()).isEqualTo(testToDos);
 
@@ -133,22 +133,22 @@ class ToDoControllerIntegrationTest {
         itemNotInListChanged.setDescription("");
         itemNotInListChanged.setDone(itemNotInList.isDone());
 
-        restTemplate.put("/todoitems/"+itemNotInList.getId(), itemNotInListChanged);
+        restTemplate.put("/api/todoitems/"+itemNotInList.getId(), itemNotInListChanged);
 
-        ToDoItem[] listAfterNoDescriptionChange = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAfterNoDescriptionChange = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAfterNoDescriptionChange).toList()).isEqualTo(testToDos);
 
         // shouldDeleteItem
-        restTemplate.delete("/todoitems/"+testToDo3.getId());
+        restTemplate.delete("/api/todoitems/"+testToDo3.getId());
         testToDos.remove(testToDo3);
 
-        ToDoItem[] listAfterDelete = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
+        ToDoItem[] listAfterDelete = restTemplate.getForObject("/api/todoitems/getall", ToDoItem[].class);
 
         Assertions.assertThat(Arrays.stream(listAfterDelete).toList()).isEqualTo(testToDos);
 
         // shouldReturnEmptyListBecauseToDoItemNotInList
-        ToDoItem[] responseGetEmptyList2 = restTemplate.getForObject("/todoitems/tuedelue", ToDoItem[].class);
+        ToDoItem[] responseGetEmptyList2 = restTemplate.getForObject("/api/todoitems/tuedelue", ToDoItem[].class);
         Assertions.assertThat(Arrays.stream(responseGetEmptyList2).toList()).isEqualTo(List.of());
         */
     }
