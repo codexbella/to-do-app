@@ -5,7 +5,6 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -108,13 +107,13 @@ class ToDoServiceTest {
     @Test
     void shouldAddNewToDoItem() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
         List<ToDoItem> testToDoItems = new ArrayList<>();
         testToDoItems.add(testToDo1);
         testToDoItems.add(testToDo2);
-
 
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
@@ -130,7 +129,7 @@ class ToDoServiceTest {
     @Test
     void shouldNotAddNewToDoItemBecauseTitleAlreadyInList() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
         List<ToDoItem> testToDos = new ArrayList<>();
@@ -170,7 +169,7 @@ class ToDoServiceTest {
     @Test
     void shouldNotChangeItemTitleBecauseDuplicateTitle() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
         List<ToDoItem> testToDos = new ArrayList<>();
@@ -192,7 +191,7 @@ class ToDoServiceTest {
     @Test
     void shouldChangeItemDescription() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
 
         List<ToDoItem> testToDos = new ArrayList<>();
@@ -263,7 +262,7 @@ class ToDoServiceTest {
 
         testToDoService.addItem(testToDo3);
 
-        verify(mockToDoRepo).addItem(testToDo3);
+        verify(mockToDoRepo).add(testToDo3);
     }
     @Test
     void shouldReturnMatchingToDoItemsByTitleWithMock() {
@@ -271,7 +270,7 @@ class ToDoServiceTest {
 
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
-        when(mockToDoRepo.getMatchingToDoItems("fenster")).thenReturn(List.of(testToDo2));
+        when(testToDoService.getMatchingToDoItems("fenster")).thenReturn(List.of(testToDo2));
 
         assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
     }
