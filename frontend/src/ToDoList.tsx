@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {ToDoItem} from "./itemModel";
 import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
 import './ToDoList.css';
@@ -12,9 +12,7 @@ export default function ToDoList() {
 
     const { t } = useTranslation();
     
-    useEffect(() => getAll(), [])
-    
-    const getAll = () => {
+    const getAll = useCallback(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
@@ -25,8 +23,10 @@ export default function ToDoList() {
             .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
             .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         setSearchTerm('')
-    }
-
+    },[t]);
+    
+    useEffect(() => getAll(), [getAll])
+    
     const getAllNotDone = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)
             .then(response => {
