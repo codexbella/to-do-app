@@ -1,10 +1,17 @@
 package de.codexbella;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Document(collection = "todoitems")
+@Data
 public class ToDoItem {
-    private String id = UUID.randomUUID().toString();
+    @Id
+    private String id;
     private String title;
     private String description;
     private boolean done = false;
