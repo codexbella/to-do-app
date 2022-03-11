@@ -44,15 +44,20 @@ public class ToDoService {
     }
 
     public List<ToDoItem> changeItem(ToDoItem toDoItemChanged) {
-        for (int i = 0; i < toDoRepository.count(); i++) {
-            ToDoItem currentItem = toDoRepository.findAll().get(i);
+        List<ToDoItem> listBefore = toDoRepository.findAll();
+        for (ToDoItem currentItem : listBefore) {
             if (currentItem.getId().equals(toDoItemChanged.getId())) {
-                if (toDoRepository.findAll().stream().filter(item -> item.getTitle().equalsIgnoreCase(toDoItemChanged.getTitle())).findFirst().isEmpty()) {
+                if (toDoRepository.findByTitle(toDoItemChanged.getTitle()).isEmpty()) {
                     currentItem.setTitle(toDoItemChanged.getTitle());
                 }
                 currentItem.setDescription(toDoItemChanged.getDescription());
                 currentItem.setDone(toDoItemChanged.isDone());
                 toDoRepository.save(currentItem);
+                System.out.println(toDoRepository.findAll());
+                System.out.println(currentItem);
+                List<ToDoItem> listAfter = getToDoList();
+                System.out.println(listAfter);
+                return listAfter;
             }
         }
         return getToDoList();

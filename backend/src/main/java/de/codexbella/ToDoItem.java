@@ -13,30 +13,15 @@ public class ToDoItem {
     @Id
     private String id;
     private String title;
-    private String description;
+    private String description = "";
     private boolean done = false;
 
     public ToDoItem(String title, String taskDescription, boolean done) {
-        //this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = taskDescription;
         this.done = done;
     }
-    public ToDoItem(String title, String taskDescription) {
-        //this.id = UUID.randomUUID().toString();
-        this.title = title;
-        this.description = taskDescription;
-        this.done = false;
-    }
-    public ToDoItem(String title, boolean done) {
-        //this.id = UUID.randomUUID().toString();
-        this.title = title;
-        this.description = "";
-        this.done = done;
-    }
-
     public ToDoItem(String title) {
-        //this.id = UUID.randomUUID().toString();
         this.title = title;
         this.description = "";
         this.done = false;
@@ -47,7 +32,6 @@ public class ToDoItem {
     public void setId(String id) {
         this.id = id;
     }
-
     public String getId() {
         return id;
     }
@@ -81,19 +65,5 @@ public class ToDoItem {
                 ", description='" + description + '\'' +
                 ", done=" + done +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        ToDoItem toDoItem = (ToDoItem) o;
-        return done == toDoItem.done && title.equals(toDoItem.title) && description.equals(toDoItem.description);
-    }
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, description, done);
     }
 }
