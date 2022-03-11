@@ -1,29 +1,42 @@
-import React, {useEffect, useState} from "react";
-import {ToDoItem, NewItem} from "./itemModel";
-import ToDoGalleryItem from "./ToDoGalleryItem";
+import React, {useCallback, useEffect, useState} from "react";
+import {ToDoItem} from "./itemModel";
+import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
 import './ToDoList.css';
+import { useTranslation } from 'react-i18next';
+import NewItem from "./newItem/NewItem";
 
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
-    const [newItem, setNewItem] = useState({title: 'test', description: '', done: false} as NewItem);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const [titleField, setTitleField] = useState('');
-    const [descriptionField, setDescriptionField] = useState('');
-
-    const getAll = () => {
+    const { t } = useTranslation();
+    
+    const getAll = useCallback(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
-            .then(response => response.json())
-            .then((list: Array<ToDoItem>) => setToDoList(list))
-            .catch(() => console.log('oopsie - getAll'))
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error(`${t('get-all-error')}, ${t('error')}: ${response.status}`)
+            })
+            .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
+            .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         setSearchTerm('')
-    }
-
+    },[t]);
+    
+    useEffect(() => getAll(), [getAll])
+    
     const getAllNotDone = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)
-            .then(response => response.json())
-            .then((list: Array<ToDoItem>) => setToDoList(list))
-            .catch(() => console.log('oopsie - getAllNotDone'))
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                throw new Error(`${t('get-notdone-error')}, ${t('error')}: ${response.status}`)
+            })
+            .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
+            .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         setSearchTerm('')
     }
 
@@ -32,84 +45,32 @@ export default function ToDoList() {
             return getAll();
         } else {
             fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`)
-                .then(response => response.json())
-                .then((list: Array<ToDoItem>) => setToDoList(list))
-                .catch(() => console.log('oopsie - search'))
+                .then(response => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response.json();
+                    }
+                    throw new Error(`${t('get-matching-error')}, ${t('error')}: ${response.status}`)
+                })
+                .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
+                .catch(e => {console.log(e.message); setErrorMessage(e.message)})
         }
-        setSearchTerm('')
+        setSearchTerm(input)
     }
-
-    const addItem = (item: NewItem) => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/additem`, {
-            method: 'POST',
-            body: JSON.stringify(item),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                }
-                throw new Error('Fehlercode: '+response.status)
-            })
-            .then((list: Array<ToDoItem>) => {
-                setToDoList(list)
-                setNewItem({title: 'test', description: '', done: false})
-            })
-            .catch(e => console.log('addItem: '+e.message))
-    }
-
-    useEffect(() => getAll(), [])
-
-
-
-    const changeNewItemTitle = (input: string) => {
-        setNewItem({
-            title: input,
-            description: newItem.description,
-            done: newItem.done})
-        setTitleField(input)
-    }
-    const changeNewItemDescription = (input: string) => {
-        setNewItem({
-            title: newItem.title,
-            description: input,
-            done: newItem.done})
-        setDescriptionField(input)
-    }
-
-    return <div><h1 id='title-to-do-list'>To-Do-Liste</h1>
-
-        <button className='getall-button' onClick={getAll}>Alle anzeigen</button>
-        <button className='getallnotdone-button' onClick={getAllNotDone}>Offene anzeigen</button>
-
-        <div>
-            <input className='new-to-do-item-title' type='text' placeholder='Titel' value={titleField}
-                   onChange={typed => changeNewItemTitle(typed.target.value)}
-            />
-
-            <input className='new-to-do-item-description' type='text' placeholder='Beschreibung' value={descriptionField}
-                   onChange={typed => changeNewItemDescription(typed.target.value)}
-            />
-
-            <button className='additem-button' onClick={() => {
-                addItem(newItem);
-                setTitleField('');
-                setDescriptionField('')
-            }}>
-                Neues To-Do anlegen
-            </button>
+    
+    return <div>
+        <div className='margin-top-bottom'>
+        <button className='getall-button' onClick={getAll}>{t('show-all')}</button>
+        <button className='getallnotdone-button' onClick={getAllNotDone}>{t('show-all-not-done')}</button>
+        </div>
+        <NewItem onChange={setToDoList} onError={setErrorMessage}/>
+        <div className='margin-top-bottom'>
+            <span className='color-light large'>{t('filter-list')}:</span>
+            <input className='search-field' type='text' placeholder={t('search-term')} value={searchTerm} onChange={typed => getMatchingItems(typed.target.value)}/>
         </div>
 
-        <div>
-            <h3>Liste filtern:</h3>
-            <input className='search-field' type='text' placeholder='Suchbegriff' value={searchTerm}
-                   onChange={typed => getMatchingItems(typed.target.value)}/>
-        </div>
-
-        <div id="to-do-items-wrapper">
+        <div className="to-do-items-wrapper margin-top-bottom">
             {toDoList.map(item => <ToDoGalleryItem toDoItem={item} key={item.id} onChange={setToDoList}/>)}
         </div>
+        <div className='color-light margin-top-bottom'>{errorMessage ? <div data-testid='error'>{errorMessage}</div> : <div>{t('no-error')}</div>}</div>
     </div>
 }

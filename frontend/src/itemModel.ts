@@ -4,9 +4,3 @@ export interface ToDoItem {
     description: string;
     done: boolean;
 }
-
-export interface NewItem {
-    title: string;
-    description: string;
-    done: boolean;
-}

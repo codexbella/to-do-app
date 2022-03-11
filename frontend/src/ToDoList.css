@@ -1,3 +1,12 @@
 .search-field {
-    margin-bottom: 10px;
+    margin: 10px 5px 10px 5px;
+}
+.to-do-items-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    gap: 10px 10px;
+}
+.margin-top-bottom {
+    margin: 15px 0px 15px 0px;
 }

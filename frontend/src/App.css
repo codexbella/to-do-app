@@ -1,0 +1,43 @@
+body {
+    background-color: #325288;
+}
+input[type=text] {
+    background-color: #FAEEE7;
+    color: #325288;
+    font-size: 20px;
+}
+button {
+    background-color: #FAEEE7;
+    color: #325288;
+    font-size: 20px;
+}
+.no-decoration-text {
+    text-decoration: none;
+}
+.color-light {
+    color: #FAEEE7;
+}
+.color-dark {
+    color: #325288;
+}
+.large {
+    font-size: 20px;
+}
+.bold {
+    font-weight: bold;
+}
+.small-caps {
+    font-variant: small-caps;
+}
+.red {
+    color: red;
+}
+.color-done {
+    color: #24A19C;
+}
+.color-not-done {
+    color: #D96098;
+}
+.pointer {
+    cursor: pointer;
+}

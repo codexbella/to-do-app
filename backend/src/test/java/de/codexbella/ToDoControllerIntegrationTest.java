@@ -66,6 +66,9 @@ class ToDoControllerIntegrationTest {
 
         ToDoItem[] listDone = restTemplate.getForObject("/todoitems/getall", ToDoItem[].class);
 
+        testToDos.remove(testToDo3);
+        testToDos.add(testToDo3);
+
         Assertions.assertThat(Arrays.stream(listDone).toList()).isEqualTo(testToDos);
 
         // shouldReturnAllToDoItemsThatAreNotDone
