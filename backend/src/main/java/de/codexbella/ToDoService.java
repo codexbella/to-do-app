@@ -26,9 +26,9 @@ public class ToDoService {
     }
 
     public List<ToDoItem> getToDoList() {
-        Stream<ToDoItem> Notdone = toDoRepository.getToDoList().stream().filter(item -> !item.isDone());
+        Stream<ToDoItem> notdone = toDoRepository.getToDoList().stream().filter(item -> !item.isDone());
         Stream<ToDoItem> done = toDoRepository.getToDoList().stream().filter(item -> item.isDone());
-        return Stream.concat(Notdone, done).toList();
+        return Stream.concat(notdone, done).toList();
     }
 
     public List<ToDoItem> getMatchingToDoItems(String searchTerm) {

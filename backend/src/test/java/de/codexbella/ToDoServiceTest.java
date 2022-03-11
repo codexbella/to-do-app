@@ -107,13 +107,13 @@ class ToDoServiceTest {
     @Test
     void shouldAddNewToDoItem() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
         List<ToDoItem> testToDoItems = new ArrayList<>();
         testToDoItems.add(testToDo1);
         testToDoItems.add(testToDo2);
-
 
         ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
         ToDoService testToDoService = new ToDoService(testToDoRepo);
@@ -129,7 +129,7 @@ class ToDoServiceTest {
     @Test
     void shouldNotAddNewToDoItemBecauseTitleAlreadyInList() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
         List<ToDoItem> testToDos = new ArrayList<>();
@@ -169,7 +169,7 @@ class ToDoServiceTest {
     @Test
     void shouldNotChangeItemTitleBecauseDuplicateTitle() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
         List<ToDoItem> testToDos = new ArrayList<>();
@@ -191,7 +191,7 @@ class ToDoServiceTest {
     @Test
     void shouldChangeItemDescription() {
         ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
 
         List<ToDoItem> testToDos = new ArrayList<>();
