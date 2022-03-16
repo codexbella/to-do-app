@@ -53,11 +53,6 @@ public class ToDoService {
                 currentItem.setDescription(toDoItemChanged.getDescription());
                 currentItem.setDone(toDoItemChanged.isDone());
                 toDoRepository.save(currentItem);
-                System.out.println(toDoRepository.findAll());
-                System.out.println(currentItem);
-                List<ToDoItem> listAfter = getToDoList();
-                System.out.println(listAfter);
-                return listAfter;
             }
         }
         return getToDoList();

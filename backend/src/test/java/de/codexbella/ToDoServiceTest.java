@@ -233,27 +233,31 @@ class ToDoServiceTest {
         System.out.println(expectedToDoList);
 
         assertEquals(expectedToDoList, testToDoService.getToDoList());
+    }*/
+    @Test
+    void shouldChangeItemWithMock() {
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
+        testToDo3.setId("id-placeholder");
+        ToDoItem testToDo3Changed = new ToDoItem("Masern-Impfung");
+        testToDo3Changed.setId("id-placeholder");
+
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo3));
+
+        testToDoService.changeItem(testToDo3Changed);
+
+        verify(mockToDoRepo).save(testToDo3Changed);
     }
     @Test
-    void shouldDeleteItem() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
-        ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
+    void shouldDeleteItemWithMock() {
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
-        List<ToDoItem> testToDoItems = new ArrayList<>();
-        testToDoItems.add(testToDo1);
-        testToDoItems.add(testToDo2);
-        testToDoItems.add(testToDo3);
+        testToDoService.deleteItem("id-placeholder");
 
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        testToDoService.deleteItem(testToDo2.getId());
-
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo3);
-
-        assertEquals(expectedToDoList, testToDoService.getToDoList());
-    }*/
+        verify(mockToDoRepo).deleteById("id-placeholder");
+    }
     @Test
     void shouldAddNewToDoItemWithMock() {
         ToDoItem testToDo3 = new ToDoItem("Impfung");
