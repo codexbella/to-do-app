@@ -3,10 +3,11 @@ package de.codexbella;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
+import java.util.Optional;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -243,11 +244,35 @@ class ToDoServiceTest {
 
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
+
         when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo3));
 
         testToDoService.changeItem(testToDo3Changed);
 
         verify(mockToDoRepo).save(testToDo3Changed);
+        //Mockito.verify(mockToDoRepo, Mockito.never()).save(any());
+        //Mockito.verifyNoMoreInteractions();
+    }
+    @Test
+    void shouldNotChangeItemWithMock() {
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
+        testToDo3.setId("id-placeholder");
+        ToDoItem testToDo3Changed = new ToDoItem("Masern-Impfung");
+        testToDo3Changed.setId("id-placeholder");
+        ToDoItem testToDo3x = new ToDoItem("Masern-Impfung");
+        testToDo3x.setId("id-placeholderX");
+
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo3, testToDo3x));
+        when(mockToDoRepo.findByTitleIgnoreCase("Masern-Impfung")).thenReturn(Optional.of(testToDo3x));
+
+        testToDoService.changeItem(testToDo3Changed);
+
+        verify(mockToDoRepo).save(testToDo3); // Object with old title is saved, because title duplicate.
+        //Mockito.verify(mockToDoRepo, Mockito.never()).save(any());
+        //Mockito.verifyNoMoreInteractions();
     }
     @Test
     void shouldDeleteItemWithMock() {

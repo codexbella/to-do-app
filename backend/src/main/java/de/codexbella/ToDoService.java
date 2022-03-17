@@ -1,12 +1,9 @@
 package de.codexbella;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -37,7 +34,7 @@ public class ToDoService {
     }
 
     public List<ToDoItem> addItem(ToDoItem toDoItem) {
-        if (toDoRepository.findByTitle(toDoItem.getTitle()).isEmpty()) {
+        if (toDoRepository.findByTitleIgnoreCase(toDoItem.getTitle()).isEmpty()) {
             toDoRepository.save(toDoItem);
         }
         return getToDoList();
@@ -47,7 +44,7 @@ public class ToDoService {
         List<ToDoItem> listBefore = toDoRepository.findAll();
         for (ToDoItem currentItem : listBefore) {
             if (currentItem.getId().equals(toDoItemChanged.getId())) {
-                if (toDoRepository.findByTitle(toDoItemChanged.getTitle()).isEmpty()) {
+                if (toDoRepository.findByTitleIgnoreCase(toDoItemChanged.getTitle()).isEmpty()) {
                     currentItem.setTitle(toDoItemChanged.getTitle());
                 }
                 currentItem.setDescription(toDoItemChanged.getDescription());

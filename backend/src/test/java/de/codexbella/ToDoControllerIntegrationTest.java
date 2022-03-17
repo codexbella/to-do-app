@@ -113,6 +113,13 @@ class ToDoControllerIntegrationTest {
 
       Assertions.assertThat(arrayNoDoubleAdding.length).isEqualTo(4);
 
+      // shouldNotAddNewToDoItemBecauseDuplicateTitle
+      ToDoItem testToDoX = new ToDoItem("einKAUf");
+      ToDoItem[] arrayNoDoubleTitleAdding = restTemplate.postForObject("/api/todoitems/additem", testToDoX, ToDoItem[].class);
+
+      Assertions.assertThat(arrayNoDoubleTitleAdding.length).isEqualTo(4);
+      Assertions.assertThat(listAllNotDone.get(0).getTitle()).isEqualTo("Einkauf");
+
       // shouldChangeItemTitle
       ToDoItem testToDo3changed1 = new ToDoItem("Masern-Impfung", testToDo3.getDescription(), testToDo3.isDone());
       testToDo3changed1.setId(testToDo3.getId());
@@ -124,7 +131,7 @@ class ToDoControllerIntegrationTest {
       Assertions.assertThat(arrayAfterTitleChange[2].getTitle()).isEqualTo("Masern-Impfung");
 
       // shouldNotChangeItemTitleBecauseDuplicateTitle
-      ToDoItem testToDo3changed2 = new ToDoItem("Fenster putzen", testToDo3.getDescription(), testToDo3.isDone());
+      ToDoItem testToDo3changed2 = new ToDoItem("fenster PUtzen", testToDo3.getDescription(), testToDo3.isDone());
       testToDo3changed2.setId(testToDo3.getId());
 
       restTemplate.put("/api/todoitems/" + testToDo3.getId(), testToDo3changed2);
