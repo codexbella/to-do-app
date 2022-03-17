@@ -8,8 +8,8 @@ interface NewItemProps {
 }
 
 export default function NewItem(props: NewItemProps) {
-   const [newItemTitle, setNewItemTitle] = useState('test');
-   const [newItemDescription, setNewItemDescription] = useState('');
+   const [newItemTitle, setNewItemTitle] = useState(localStorage.getItem('new-title') ?? 'test');
+   const [newItemDescription, setNewItemDescription] = useState(localStorage.getItem('new-description') ?? '');
    
    const [titleField, setTitleField] = useState(localStorage.getItem('new-title') ?? '');
    const [descriptionField, setDescriptionField] = useState(localStorage.getItem('new-description') ?? '');
