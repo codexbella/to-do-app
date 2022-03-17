@@ -8,233 +8,82 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ToDoServiceTest {
-    /*
     @Test
-    void shouldReturnCompleteListOfToDoItems() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
+    void shouldCallFindAllWithMock() {
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
-        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
+        testToDoService.getToDoList();
 
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
-
-        assertEquals(expectedToDoList, testToDoService.getToDoList());
+        verify(mockToDoRepo).findAll();
     }
     @Test
-    void shouldReturnMatchingToDoItemsByTitle() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+    void shouldAddNewToDoItemWithMock() {
         ToDoItem testToDo3 = new ToDoItem("Impfung");
 
-        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
-    }
-    @Test
-    void shouldReturnEmptyListBecauseToDoItemNotInList() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
-        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        List<ToDoItem> emptyList = List.of();
-        List<ToDoItem> actualList = testToDoService.getMatchingToDoItems("aufräumen");
-
-        assertEquals(emptyList, actualList);
-    }
-    @Test
-    void shouldSetToDoItemAsDone() {
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
-        List<ToDoItem> testToDoItems = new ArrayList<>();
-        testToDoItems.add(testToDo3);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        testToDo3.setDone(true);
-        testToDoService.changeItem(testToDo3);
-
-        ToDoItem resultingToDo = testToDoService.getToDoList().stream().findFirst().get();
-
-        assertTrue(resultingToDo.isDone());
-    }
-    @Test
-    void shouldSetToDoItemAsNotDone() {
-        ToDoItem testToDo3 = new ToDoItem("Impfung", true);
-
-        List<ToDoItem> testToDoItems = new ArrayList<>();
-        testToDoItems.add(testToDo3);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        testToDo3.setDone(false);
-        testToDoService.changeItem(testToDo3);
-
-        ToDoItem resultingToDo = testToDoService.getToDoList().stream().findFirst().get();
-
-        assertFalse(resultingToDo.isDone());
-    }
-    @Test
-    void shouldReturnAllToDoItemsThatAreNotDone() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
-        List<ToDoItem> testToDos = List.of(testToDo1, testToDo2, testToDo3);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo3);
-
-        assertEquals(expectedToDoList, testToDoService.getAllItemsNotDone());
-    }
-    @Test
-    void shouldAddNewToDoItem() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
-        List<ToDoItem> testToDoItems = new ArrayList<>();
-        testToDoItems.add(testToDo1);
-        testToDoItems.add(testToDo2);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDoItems);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
         testToDoService.addItem(testToDo3);
 
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
-
-        List<ToDoItem> actualToDoList = testToDoService.getToDoList();
-
-        assertEquals(expectedToDoList, actualToDoList);
+        verify(mockToDoRepo).save(testToDo3);
     }
     @Test
-    void shouldNotAddNewToDoItemBecauseTitleAlreadyInList() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+    void shouldNotAddItemWithMock() {
+        ToDoItem testToDo1 = new ToDoItem("Einkauf");
+        testToDo1.setId("id-placeholder1");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+        testToDo2.setId("id-placeholder2");
         ToDoItem testToDo3 = new ToDoItem("Impfung");
+        testToDo3.setId("id-placeholder3");
 
-        List<ToDoItem> testToDos = new ArrayList<>();
-        testToDos.add(testToDo1);
-        testToDos.add(testToDo2);
-        testToDos.add(testToDo3);
+        ToDoItem testToDoExtra = new ToDoItem("imPFung");
+        testToDoExtra.setId("id-placeholder-extra");
 
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
-        ToDoItem testToDo4 = new ToDoItem("IMpfung");
-        testToDoService.addItem(testToDo4);
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDo2, testToDo3));
+        when(mockToDoRepo.findByTitleIgnoreCase("imPFung")).thenReturn(Optional.of(testToDo3));
 
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
+        testToDoService.addItem(testToDoExtra);
 
-        assertEquals(expectedToDoList, testToDoService.getToDoList());
+        verify(mockToDoRepo).findAll();
+        verify(mockToDoRepo).findByTitleIgnoreCase("imPFung");
+        verify(mockToDoRepo, Mockito.never()).save(any());
+        verifyNoMoreInteractions(mockToDoRepo);
     }
     @Test
-    void shouldChangeItemTitle() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
-        List<ToDoItem> testToDos = new ArrayList<>();
-        testToDos.add(testToDo1);
-        testToDos.add(testToDo2);
-        testToDos.add(testToDo3);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        testToDo3.setTitle("Masern-Impfung");
-        testToDoService.changeItem(testToDo3);
-
-        assertEquals("Masern-Impfung", testToDoService.getMatchingToDoItems("Impfung").get(0).getTitle());
-    }
-    @Test
-    void shouldNotChangeItemTitleBecauseDuplicateTitle() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+    void shouldReturnMatchingToDoItemsByTitleWithMock() {
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
 
-        List<ToDoItem> testToDos = new ArrayList<>();
-        testToDos.add(testToDo1);
-        testToDos.add(testToDo2);
-        testToDos.add(testToDo3);
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo2));
 
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        ToDoItem testToDo3Duplicate = new ToDoItem("Fenster Putzen", testToDo3.getDescription(), testToDo3.isDone());
-        testToDo3Duplicate.setId(testToDo3.getId());
-        List<ToDoItem> listAfterAttemptedTitleChange = testToDoService.changeItem(testToDo3);
-
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2, testToDo3);
-
-        assertEquals(expectedToDoList, listAfterAttemptedTitleChange);
+        assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
+        verify(mockToDoRepo).findAll();
+        verifyNoMoreInteractions(mockToDoRepo);
     }
     @Test
-    void shouldChangeItemDescription() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
+    void shouldReturnAllItemsNotDoneWithMock() {
+        ToDoItem testToDo1 = new ToDoItem("Einkauf");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-        ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
+        testToDo2.setDone(true);
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
+        ToDoItem testToDo4 = new ToDoItem("Pflanzen gießen");
 
-        List<ToDoItem> testToDos = new ArrayList<>();
-        testToDos.add(testToDo1);
-        testToDos.add(testToDo2);
-        testToDos.add(testToDo3);
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDo2, testToDo3, testToDo4));
 
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        testToDo3.setDescription("Keuchhusten-Tetanus-Diphterie");
-        testToDoService.changeItem(testToDo3);
-
-        assertEquals("Keuchhusten-Tetanus-Diphterie", testToDoService.getMatchingToDoItems("Impfung").get(0).getDescription());
+        assertEquals(List.of(testToDo1, testToDo3, testToDo4), testToDoService.getAllItemsNotDone());
+        verify(mockToDoRepo).findAll();
+        verifyNoMoreInteractions(mockToDoRepo);
     }
-    @Test
-    void shouldNotWorkBecauseNoSuchItemToChangeDescriptionOf() {
-        ToDoItem testToDo1 = new ToDoItem("Obi-Einkauf", "Wäscheständer, Kabelbinder");
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen", true);
-        ToDoItem testToDo3 = new ToDoItem("Impfung", "Masern-Mumps-Röteln");
-
-        List<ToDoItem> testToDos = new ArrayList<>();
-        testToDos.add(testToDo1);
-        testToDos.add(testToDo2);
-
-        ToDoRepository testToDoRepo = new ToDoRepository(testToDos);
-        ToDoService testToDoService = new ToDoService(testToDoRepo);
-
-        ToDoItem testToDo3changed = new ToDoItem("Impfung", "");
-        testToDo3changed.setId(testToDo3.getId());
-        System.out.println(testToDos);
-
-        testToDoService.changeItem(testToDo3changed);
-        System.out.println(testToDos);
-
-
-        List<ToDoItem> expectedToDoList = List.of(testToDo1, testToDo2);
-        System.out.println(expectedToDoList);
-
-        assertEquals(expectedToDoList, testToDoService.getToDoList());
-    }*/
     @Test
     void shouldChangeItemWithMock() {
         ToDoItem testToDo3 = new ToDoItem("Impfung");
@@ -250,17 +99,15 @@ class ToDoServiceTest {
         testToDoService.changeItem(testToDo3Changed);
 
         verify(mockToDoRepo).save(testToDo3Changed);
-        //Mockito.verify(mockToDoRepo, Mockito.never()).save(any());
-        //Mockito.verifyNoMoreInteractions();
     }
     @Test
     void shouldNotChangeItemWithMock() {
         ToDoItem testToDo3 = new ToDoItem("Impfung");
-        testToDo3.setId("id-placeholder");
-        ToDoItem testToDo3Changed = new ToDoItem("Masern-Impfung");
-        testToDo3Changed.setId("id-placeholder");
+        testToDo3.setId("id-placeholder3");
+        ToDoItem testToDoExtra = new ToDoItem("Masern-Impfung");
+        testToDoExtra.setId("id-placeholder");
         ToDoItem testToDo3x = new ToDoItem("Masern-Impfung");
-        testToDo3x.setId("id-placeholderX");
+        testToDo3x.setId("id-placeholder3X");
 
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
@@ -268,11 +115,9 @@ class ToDoServiceTest {
         when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo3, testToDo3x));
         when(mockToDoRepo.findByTitleIgnoreCase("Masern-Impfung")).thenReturn(Optional.of(testToDo3x));
 
-        testToDoService.changeItem(testToDo3Changed);
+        testToDoService.changeItem(testToDoExtra);
 
-        verify(mockToDoRepo).save(testToDo3); // Object with old title is saved, because title duplicate.
-        //Mockito.verify(mockToDoRepo, Mockito.never()).save(any());
-        //Mockito.verifyNoMoreInteractions();
+        verify(mockToDoRepo).save(testToDo3); // Object with old title is saved, because new title already exists.
     }
     @Test
     void shouldDeleteItemWithMock() {
@@ -282,26 +127,5 @@ class ToDoServiceTest {
         testToDoService.deleteItem("id-placeholder");
 
         verify(mockToDoRepo).deleteById("id-placeholder");
-    }
-    @Test
-    void shouldAddNewToDoItemWithMock() {
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
-        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
-        ToDoService testToDoService = new ToDoService(mockToDoRepo);
-
-        testToDoService.addItem(testToDo3);
-
-        verify(mockToDoRepo).save(testToDo3);
-    }
-    @Test
-    void shouldReturnMatchingToDoItemsByTitleWithMock() {
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-
-        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
-        ToDoService testToDoService = new ToDoService(mockToDoRepo);
-        when(testToDoService.getMatchingToDoItems("fenster")).thenReturn(List.of(testToDo2));
-
-        assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
     }
 }

@@ -19,8 +19,9 @@ public class ToDoService {
     }
 
     public List<ToDoItem> getToDoList() {
-        Stream<ToDoItem> notdone = toDoRepository.findAll().stream().filter(item -> !item.isDone());
-        Stream<ToDoItem> done = toDoRepository.findAll().stream().filter(item -> item.isDone());
+        List<ToDoItem> toDoItemList = toDoRepository.findAll();
+        Stream<ToDoItem> notdone = toDoItemList.stream().filter(item -> !item.isDone());
+        Stream<ToDoItem> done = toDoItemList.stream().filter(item -> item.isDone());
         return Stream.concat(notdone, done).toList();
     }
 
