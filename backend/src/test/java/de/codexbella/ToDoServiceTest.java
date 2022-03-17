@@ -22,17 +22,20 @@ class ToDoServiceTest {
     }
     @Test
     void shouldAddNewToDoItemWithMock() {
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
-        testToDoService.addItem(testToDo3);
+        ToDoItem testToDo1 = new ToDoItem("Einkauf");
 
-        verify(mockToDoRepo).save(testToDo3);
+        testToDoService.addItem(testToDo1);
+
+        verify(mockToDoRepo).save(testToDo1);
     }
     @Test
     void shouldNotAddItemWithMock() {
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+
         ToDoItem testToDo1 = new ToDoItem("Einkauf");
         testToDo1.setId("id-placeholder1");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
@@ -42,9 +45,6 @@ class ToDoServiceTest {
 
         ToDoItem testToDoExtra = new ToDoItem("imPFung");
         testToDoExtra.setId("id-placeholder-extra");
-
-        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
-        ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
         when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDo2, testToDo3));
         when(mockToDoRepo.findByTitleIgnoreCase("imPFung")).thenReturn(Optional.of(testToDo3));
@@ -58,11 +58,17 @@ class ToDoServiceTest {
     }
     @Test
     void shouldReturnMatchingToDoItemsByTitleWithMock() {
-        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
-
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
-        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo2));
+
+        ToDoItem testToDo1 = new ToDoItem("Einkauf");
+        testToDo1.setId("id-placeholder1");
+        ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
+        testToDo2.setId("id-placeholder2");
+        ToDoItem testToDo3 = new ToDoItem("Impfung");
+        testToDo3.setId("id-placeholder3");
+
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDo2, testToDo3));
 
         assertEquals(List.of(testToDo2), testToDoService.getMatchingToDoItems("fenster"));
         verify(mockToDoRepo).findAll();
@@ -70,14 +76,15 @@ class ToDoServiceTest {
     }
     @Test
     void shouldReturnAllItemsNotDoneWithMock() {
+        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
+        ToDoService testToDoService = new ToDoService(mockToDoRepo);
+
         ToDoItem testToDo1 = new ToDoItem("Einkauf");
         ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
         testToDo2.setDone(true);
         ToDoItem testToDo3 = new ToDoItem("Impfung");
         ToDoItem testToDo4 = new ToDoItem("Pflanzen gießen");
 
-        ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
-        ToDoService testToDoService = new ToDoService(mockToDoRepo);
         when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDo2, testToDo3, testToDo4));
 
         assertEquals(List.of(testToDo1, testToDo3, testToDo4), testToDoService.getAllItemsNotDone());
@@ -86,38 +93,39 @@ class ToDoServiceTest {
     }
     @Test
     void shouldChangeItemWithMock() {
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-        testToDo3.setId("id-placeholder");
-        ToDoItem testToDo3Changed = new ToDoItem("Masern-Impfung");
-        testToDo3Changed.setId("id-placeholder");
-
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
-        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo3));
+        ToDoItem testToDo1 = new ToDoItem("Einkauf");
+        testToDo1.setId("id-placeholder");
+        ToDoItem testToDo1Changed = new ToDoItem("Obi-Einkauf");
+        testToDo1Changed.setId("id-placeholder");
 
-        testToDoService.changeItem(testToDo3Changed);
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1));
 
-        verify(mockToDoRepo).save(testToDo3Changed);
+        testToDoService.changeItem(testToDo1Changed);
+
+        verify(mockToDoRepo).save(testToDo1Changed);
     }
     @Test
     void shouldNotChangeItemWithMock() {
-        ToDoItem testToDo3 = new ToDoItem("Impfung");
-        testToDo3.setId("id-placeholder3");
-        ToDoItem testToDoExtra = new ToDoItem("Masern-Impfung");
-        testToDoExtra.setId("id-placeholder");
-        ToDoItem testToDo3x = new ToDoItem("Masern-Impfung");
-        testToDo3x.setId("id-placeholder3X");
-
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
         ToDoService testToDoService = new ToDoService(mockToDoRepo);
 
-        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo3, testToDo3x));
-        when(mockToDoRepo.findByTitleIgnoreCase("Masern-Impfung")).thenReturn(Optional.of(testToDo3x));
+        ToDoItem testToDo1 = new ToDoItem("Einkauf");
+        testToDo1.setId("id-placeholder");
+        ToDoItem testToDo1Changed = new ToDoItem("Obi-Einkauf");
+        testToDo1Changed.setId(testToDo1.getId());
 
-        testToDoService.changeItem(testToDoExtra);
+        ToDoItem testToDoExtra = new ToDoItem("obi-einKAuf");
+        testToDoExtra.setId("id-placeholder-extra");
 
-        verify(mockToDoRepo).save(testToDo3); // Object with old title is saved, because new title already exists.
+        when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDoExtra));
+
+        testToDoService.changeItem(testToDo1Changed);
+
+        verify(mockToDoRepo).findByTitleIgnoreCase("Obi-Einkauf");
+        verify(mockToDoRepo).save(testToDo1);
     }
     @Test
     void shouldDeleteItemWithMock() {
