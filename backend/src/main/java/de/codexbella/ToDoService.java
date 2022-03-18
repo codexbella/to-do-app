@@ -21,8 +21,6 @@ public class ToDoService {
 
     public List<ToDoItem> getToDoList(String username) {
         List<ToDoItem> toDoItemList = toDoRepository.findAllByUsername(username);
-        //List<ToDoItem> toDoItemList = toDoRepository.findAll().stream()
-        //      .filter(item -> item.getUsername().equalsIgnoreCase(username)).toList();
         Stream<ToDoItem> notDone = toDoItemList.stream().filter(item -> !item.isDone());
         Stream<ToDoItem> done = toDoItemList.stream().filter(item -> item.isDone());
         return Stream.concat(notDone, done).toList();
@@ -30,13 +28,12 @@ public class ToDoService {
 
     public List<ToDoItem> getMatchingToDoItems(String searchTerm, String username) {
         return getToDoList(username).stream()
-                .filter(item -> item.getUsername().equalsIgnoreCase(username)
-                      && item.getTitle().toLowerCase().contains(searchTerm.toLowerCase())).toList();
+                .filter(item -> item.getTitle().toLowerCase().contains(searchTerm.toLowerCase())).toList();
     }
 
     public List<ToDoItem> getAllItemsNotDone(String username) {
-        return toDoRepository.findAll().stream()
-              .filter(item -> item.getUsername().equalsIgnoreCase(username) && !item.isDone()).toList();
+        return getToDoList(username).stream()
+              .filter(item -> !item.isDone()).toList();
     }
 
     public List<ToDoItem> addItem(ToDoItem toDoItem, String username) {
