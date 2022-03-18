@@ -28,7 +28,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
       if (tokenFromRequest != null && !tokenFromRequest.isBlank()) {
          try {
-            Claims claims =jwtService.extractClaims(tokenFromRequest);
+            Claims claims = jwtService.extractClaims(tokenFromRequest);
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                   claims.getSubject(),
