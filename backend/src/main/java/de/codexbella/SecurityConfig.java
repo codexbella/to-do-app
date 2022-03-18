@@ -25,8 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    protected void configure(HttpSecurity http) throws Exception {
       http.csrf().disable()
             .authorizeRequests()
-            .mvcMatchers("/api/todoitems").authenticated()
-            .mvcMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+            .antMatchers("/api/todoitems").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
             .antMatchers("/**").authenticated();
    }
 
