@@ -1,5 +1,6 @@
 package de.codexbella.user;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,5 +27,12 @@ public class JwtService {
             .setExpiration(Date.from(Instant.now().plus(Duration.ofHours(2))))
             .signWith(SignatureAlgorithm.HS256, secret)
             .compact();
+   }
+
+   public Claims extractClaims(String token) {
+      return Jwts.parser()
+            .setSigningKey(secret)
+            .parseClaimsJws(token)
+            .getBody();
    }
 }
