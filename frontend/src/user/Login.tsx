@@ -1,10 +1,14 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useEffect, useState} from "react";
 import { useTranslation } from 'react-i18next';
+import {useNavigate} from "react-router-dom";
 
 export default function Login() {
    const [usernameField, setUsernameField] = useState('');
    const [passwordField, setPasswordField] = useState('');
    const { t } = useTranslation();
+   const nav = useNavigate();
+   
+   useEffect(() => {if (localStorage.getItem('user-token')) {nav('/todoitems')}}, [nav])
    
    const login = (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
@@ -28,6 +32,7 @@ export default function Login() {
             localStorage.setItem('user-token', response);
             setUsernameField('');
             setPasswordField('');
+            nav('/todoitems')
          })
    }
    

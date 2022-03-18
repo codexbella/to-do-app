@@ -20,5 +20,7 @@
   "link-all-todos": "Zurück zur Liste",
   "username": "Benutzername",
   "password": "Passwort",
-  "new-user-error": "Fehler beim Anlegen des neuen Benutzers."
+  "new-user-error": "Fehler beim Anlegen des neuen Benutzers.",
+  "login": "Login",
+  "logout": "Logout"
 }

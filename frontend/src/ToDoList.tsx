@@ -32,7 +32,7 @@ export default function ToDoList() {
         } else {
         nav('/login')
         }
-    }, [getAll])
+    }, [getAll, nav])
     
     const getAllNotDone = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)

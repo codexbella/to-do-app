@@ -20,5 +20,7 @@
   "link-all-todos": "Back to list",
   "username": "User name",
   "password": "Password",
-  "new-user-error": "Error on creating a new user."
+  "new-user-error": "Error on creating a new user.",
+  "login": "Login",
+  "logout": "Logout"
 }

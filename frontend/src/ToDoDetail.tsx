@@ -6,7 +6,7 @@ export default function ToDoDetail() {
    const { t } = useTranslation();
    const nav = useNavigate();
    
-   useEffect(() => {if (localStorage.getItem('user-token')) {} else {nav('/login')}}, [])
+   useEffect(() => {if (localStorage.getItem('user-token')) {} else {nav('/login')}}, [nav])
    
    return <div>
       <button><NavLink to='/todoitems' className='no-decoration-text color-dark large'>{t('link-all-todos')}</NavLink></button>
