@@ -1,12 +1,13 @@
 package de.codexbella;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/todoitems")
-@CrossOrigin
+@RequiredArgsConstructor
 public class ToDoController {
     private ToDoService toDoService;
 
