@@ -26,6 +26,7 @@ export default function NewItem(props: NewItemProps) {
             done: false
          }),
          headers: {
+            Authorization: `Bearer ${localStorage.getItem('user-token')}`,
             'Content-Type': 'application/json'
          }
       })

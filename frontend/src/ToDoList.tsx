@@ -14,7 +14,10 @@ export default function ToDoList() {
     const nav = useNavigate();
     
     const getAll = useCallback(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
+        })
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -35,7 +38,10 @@ export default function ToDoList() {
     }, [getAll, nav])
     
     const getAllNotDone = () => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
+        })
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -51,7 +57,10 @@ export default function ToDoList() {
         if (input === '') {
             return getAll();
         } else {
-            fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`, {
+                method: 'GET',
+                headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
+            })
                 .then(response => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();

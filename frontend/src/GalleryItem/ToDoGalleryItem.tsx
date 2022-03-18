@@ -17,7 +17,8 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
    
    const deleteToDo = (id: string) => {
       fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${id}`, {
-         method: 'DELETE'
+         method: 'DELETE',
+         headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
       })
          .then(response => {
             if (response.status >= 200 && response.status < 300) {
@@ -41,6 +42,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
          method: 'PUT',
          body: JSON.stringify(changedItem),
          headers: {
+            Authorization: `Bearer ${localStorage.getItem('user-token')}`,
             'Content-Type': 'application/json'
          }
       })
@@ -60,6 +62,7 @@ export default function ToDoGalleryItem(props: ToDoGalleryItemProps) {
          method: 'PUT',
          body: JSON.stringify(item),
          headers: {
+            Authorization: `Bearer ${localStorage.getItem('user-token')}`,
             'Content-Type': 'application/json'
          }
       })
