@@ -17,5 +17,8 @@
   "filter-list": "Liste filtern",
   "search-term": "Suchbegriff",
   "edit": "Bearbeiten",
-  "link-all-todos": "Zurück zur Liste"
+  "link-all-todos": "Zurück zur Liste",
+  "username": "Benutzername",
+  "password": "Passwort",
+  "new-user-error": "Fehler beim Anlegen des neuen Benutzers."
 }
