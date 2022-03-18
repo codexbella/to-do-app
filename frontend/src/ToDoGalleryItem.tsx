@@ -1,6 +1,6 @@
-import {ToDoItem} from '../itemModel';
-import './ToDoGalleryItem.css';
-import pen from '../images/edit-pen.png';
+import {ToDoItem} from './itemModel';
+import './App.css';
+import pen from './images/edit-pen.png';
 import {FormEvent, useState} from "react";
 import {useTranslation} from 'react-i18next';
 import {NavLink} from "react-router-dom";

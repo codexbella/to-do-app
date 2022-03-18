@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {ToDoItem} from "./itemModel";
-import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
-import './ToDoList.css';
+import ToDoGalleryItem from "./ToDoGalleryItem";
+import './App.css';
 import { useTranslation } from 'react-i18next';
-import NewItem from "./newItem/NewItem";
+import NewItem from "./NewItem";
 import {useNavigate} from "react-router-dom";
 
 export default function ToDoList() {

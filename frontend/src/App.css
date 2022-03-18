@@ -41,3 +41,42 @@ button {
 .pointer {
     cursor: pointer;
 }
+
+.search-field {
+    margin: 10px 5px 10px 5px;
+}
+.to-do-items-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-around;
+    gap: 10px 10px;
+}
+.margin-top-bottom {
+    margin: 15px 0px 15px 0px;
+}
+
+.to-do-item-not-done {
+    padding: 5px;
+    border: 3px #D96098 solid;
+    border-radius: 5%;
+    gap: 10px 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+.to-do-item-done {
+    padding: 5px;
+    border: 3px #24A19C solid;
+    border-radius: 5%;
+    gap: 10px 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+.image-edit-pen {
+    height: 20px;
+    opacity: 60%;
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import {ToDoItem} from "../itemModel";
+import {ToDoItem} from "./itemModel";
 import React, {FormEvent, useState} from "react";
 import {useTranslation} from "react-i18next";
 

@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import './i18n';
 import ToDoList from "./ToDoList";
 import ToDoDetail from "./ToDoDetail";
-import Login from "./user/Login";
+import Login from "./Login";
 
 ReactDOM.render(
    <React.StrictMode>
