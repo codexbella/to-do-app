@@ -4,13 +4,14 @@ import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
 import './ToDoList.css';
 import { useTranslation } from 'react-i18next';
 import NewItem from "./newItem/NewItem";
+import {useNavigate} from "react-router-dom";
 
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
     const [errorMessage, setErrorMessage] = useState('');
-
     const { t } = useTranslation();
+    const nav = useNavigate();
     
     const getAll = useCallback(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
@@ -25,7 +26,13 @@ export default function ToDoList() {
         setSearchTerm('')
     },[t]);
     
-    useEffect(() => getAll(), [getAll])
+    useEffect(() => {
+        if (localStorage.getItem('user-token')) {
+            getAll()
+        } else {
+        nav('/login')
+        }
+    }, [getAll])
     
     const getAllNotDone = () => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)

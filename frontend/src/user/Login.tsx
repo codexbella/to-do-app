@@ -2,7 +2,6 @@ import React, {FormEvent, useState} from "react";
 import { useTranslation } from 'react-i18next';
 
 export default function Login() {
-   const [token, setToken] = useState(localStorage.getItem('user-token') ?? '');
    const [usernameField, setUsernameField] = useState('');
    const [passwordField, setPasswordField] = useState('');
    const { t } = useTranslation();
@@ -26,7 +25,6 @@ export default function Login() {
             throw new Error(`${t('new-user-error')}, ${t('error')}: ${response.status}`)
          })
          .then(response => {
-            setToken(response);
             localStorage.setItem('user-token', response);
             setUsernameField('');
             setPasswordField('');
