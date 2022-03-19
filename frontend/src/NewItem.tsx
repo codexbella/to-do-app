@@ -1,4 +1,4 @@
-import {ToDoItem} from "../itemModel";
+import {ToDoItem} from "./itemModel";
 import React, {FormEvent, useState} from "react";
 import {useTranslation} from "react-i18next";
 
@@ -26,6 +26,7 @@ export default function NewItem(props: NewItemProps) {
             done: false
          }),
          headers: {
+            Authorization: `Bearer ${localStorage.getItem('user-token')}`,
             'Content-Type': 'application/json'
          }
       })

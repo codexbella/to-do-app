@@ -11,6 +11,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class ToDoServiceTest {
+    /*
     @Test
     void shouldCallFindAllWithMock() {
         ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
@@ -136,4 +137,5 @@ class ToDoServiceTest {
 
         verify(mockToDoRepo).deleteById("id-placeholder");
     }
+    */
 }

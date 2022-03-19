@@ -1,19 +1,23 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {ToDoItem} from "./itemModel";
-import ToDoGalleryItem from "./GalleryItem/ToDoGalleryItem";
-import './ToDoList.css';
+import ToDoGalleryItem from "./ToDoGalleryItem";
+import './App.css';
 import { useTranslation } from 'react-i18next';
-import NewItem from "./newItem/NewItem";
+import NewItem from "./NewItem";
+import {useNavigate} from "react-router-dom";
 
 export default function ToDoList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [toDoList, setToDoList] = useState([] as Array<ToDoItem>);
     const [errorMessage, setErrorMessage] = useState('');
-
     const { t } = useTranslation();
+    const nav = useNavigate();
     
     const getAll = useCallback(() => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
+        })
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -25,10 +29,19 @@ export default function ToDoList() {
         setSearchTerm('')
     },[t]);
     
-    useEffect(() => getAll(), [getAll])
+    useEffect(() => {
+        if (localStorage.getItem('user-token')) {
+            getAll()
+        } else {
+        nav('/login')
+        }
+    }, [getAll, nav])
     
     const getAllNotDone = () => {
-        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getallnotdone`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
+        })
             .then(response => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -44,7 +57,10 @@ export default function ToDoList() {
         if (input === '') {
             return getAll();
         } else {
-            fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`)
+            fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/${input}`, {
+                method: 'GET',
+                headers: {Authorization: `Bearer ${localStorage.getItem('user-token')}`}
+            })
                 .then(response => {
                     if (response.status >= 200 && response.status < 300) {
                         return response.json();

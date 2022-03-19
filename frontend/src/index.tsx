@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import './i18n';
 import ToDoList from "./ToDoList";
 import ToDoDetail from "./ToDoDetail";
+import Login from "./Login";
 
 ReactDOM.render(
    <React.StrictMode>
@@ -13,6 +14,7 @@ ReactDOM.render(
          <BrowserRouter>
             <Routes>
                <Route path='/' element={<App/>}>
+                  <Route path='login' element={<Login/>}/>
                   <Route path='todoitems' element={<ToDoList/>}/>
                   <Route path='todoitems/:id' element={<ToDoDetail/>}/>
                   <Route path='*' element={<ToDoList/>}/>
