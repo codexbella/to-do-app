@@ -34,7 +34,9 @@ public class UserController {
    @PostMapping("/login")
    public String login(@RequestBody LoginData loginData) {
       try {
-         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword()));
+         Authentication auth = authenticationManager.authenticate(
+               new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword())
+         );
          List<String> roles = auth.getAuthorities().stream().map(ga -> ga.getAuthority()).toList();
          Map<String, Object> claims = new HashMap<>();
          claims.put("roles", roles);
