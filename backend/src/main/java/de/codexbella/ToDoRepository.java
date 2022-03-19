@@ -12,4 +12,6 @@ public interface ToDoRepository extends MongoRepository<ToDoItem, String> {
    Optional<ToDoItem> findByTitleIgnoreCase(String title);
 
    List<ToDoItem> findAllByUsername(String username);
+
+   List<ToDoItem> findAllByUsernameAndDone(String username, boolean done);
 }

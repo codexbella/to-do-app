@@ -68,6 +68,7 @@ public class ToDoItem {
    public String toString() {
       return "ToDoItem{" +
             "id='" + id + '\'' +
+            ", username='" + username + '\'' +
             ", title='" + title + '\'' +
             ", description='" + description + '\'' +
             ", done=" + done +
