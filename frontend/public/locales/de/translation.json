@@ -22,5 +22,6 @@
   "password": "Passwort",
   "new-user-error": "Fehler beim Anlegen des neuen Benutzers.",
   "login": "Login",
-  "logout": "Logout"
+  "logout": "Logout",
+  "try-logout-login": "bitte logge dich aus und erneut ein"
 }

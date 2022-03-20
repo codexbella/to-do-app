@@ -22,7 +22,7 @@ export default function ToDoList() {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
                 }
-                throw new Error(`${t('get-all-error')}, ${t('error')}: ${response.status}`)
+                throw new Error(`${t('get-all-error')}, ${t('error')}: ${response.status}, ${t('try-logout-login')}.`)
             })
             .then((list: Array<ToDoItem>) => {setToDoList(list); setErrorMessage('')})
             .catch(e => {console.log(e.message); setErrorMessage(e.message)})
