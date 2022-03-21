@@ -72,7 +72,7 @@ class ToDoControllerIntegrationTest {
       // shouldAddNewToDoItem
       ToDoItem testToDo1 = new ToDoItem("Einkauf");
 
-      ResponseEntity<ToDoItem[]> responseAdding = restTemplate.exchange("/api/todoitems/additem", HttpMethod.POST,
+      ResponseEntity<ToDoItem[]> responseAdding = restTemplate.postForEntity("/api/todoitems/additem",
             new HttpEntity<>(testToDo1, headerForUser1), ToDoItem[].class);
 
       assertThat(responseAdding.getStatusCode()).isEqualTo(HttpStatus.OK);

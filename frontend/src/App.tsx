@@ -22,6 +22,10 @@ function App() {
          <button onClick={loginOrLogout} className='no-decoration-text color-dark large'>
             {localStorage.getItem('user-token') ? t('logout') : t('login')}
          </button>
+         {!localStorage.getItem('user-token') &&
+            <button onClick={() => nav('/register')} className='no-decoration-text color-dark large'>
+            {t('register')}
+         </button>}
          <div><Outlet/></div>
       </div>
    );
