@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.InputMismatchException;
 import java.util.Optional;
 
 @Service
@@ -21,9 +22,9 @@ public class UserService {
             userRepository.save(userDocument);
             return "New user created with username " + userDocument.getUsername();
          }
-         return "Username " + userDocument.getUsername() + " already in use.";
+         throw new IllegalStateException("Username " + userDocument.getUsername() + " already in use.");
       }
-      return "Passwords mismatched.";
+      throw new InputMismatchException("Passwords mismatched.");
    }
 
    public Optional<UserDocument> findByUsername(String username) {

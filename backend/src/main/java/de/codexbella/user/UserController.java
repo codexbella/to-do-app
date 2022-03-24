@@ -3,6 +3,7 @@ package de.codexbella.user;
 import de.codexbella.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +27,13 @@ public class UserController {
    private final JwtUtils jwtService;
 
    @PostMapping("/register")
-   public String register(@RequestBody RegisterData user) {
-      return userService.createUser(user);
+   public ResponseEntity<String> register(@RequestBody RegisterData user) {
+      try {
+         String creationMessage = userService.createUser(user);
+         return new ResponseEntity<>(creationMessage, HttpStatus.CREATED);
+      } catch (Exception e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+      }
    }
 
    @PostMapping("/login")

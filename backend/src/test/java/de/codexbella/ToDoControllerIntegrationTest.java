@@ -31,7 +31,7 @@ class ToDoControllerIntegrationTest {
 
       ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", registerDataUser1, String.class);
 
-      assertThat(responseRegister.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseRegister.getStatusCode()).isEqualTo(HttpStatus.CREATED);
       assertEquals("New user created with username " + registerDataUser1.getUsername(), responseRegister.getBody());
 
       // shouldNotRegisterANewUserBecausePasswordsDoNotMatch
@@ -43,6 +43,7 @@ class ToDoControllerIntegrationTest {
       ResponseEntity<String> responseNotRegister1 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
             String.class);
 
+      assertThat(responseNotRegister1.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertEquals("Passwords mismatched.", responseNotRegister1.getBody());
 
       // shouldNotRegisterANewUserBecauseUsernameAlreadyInUse
@@ -51,6 +52,7 @@ class ToDoControllerIntegrationTest {
       ResponseEntity<String> responseNotRegister2 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
             String.class);
 
+      assertThat(responseNotRegister2.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
 
       // shouldLoginUser
