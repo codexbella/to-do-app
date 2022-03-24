@@ -37,7 +37,7 @@ public class UserController {
    }
 
    @PostMapping("/login")
-   public String login(@RequestBody LoginData loginData) {
+   public ResponseEntity<String> login(@RequestBody LoginData loginData) {
       try {
          Authentication auth = authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword())
@@ -45,9 +45,10 @@ public class UserController {
          List<String> roles = auth.getAuthorities().stream().map(ga -> ga.getAuthority()).toList();
          Map<String, Object> claims = new HashMap<>();
          claims.put("roles", roles);
-         return jwtService.createToken(claims, loginData.getUsername());
+         String token = jwtService.createToken(claims, loginData.getUsername());
+         return new ResponseEntity<>(token, HttpStatus.OK);
       } catch (Exception e) {
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
       }
    }
 }
