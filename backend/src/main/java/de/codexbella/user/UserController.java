@@ -1,7 +1,6 @@
 package de.codexbella.user;
 
 import de.codexbella.security.JwtUtils;
-import de.codexbella.security.LoginData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +25,7 @@ public class UserController {
    private final JwtUtils jwtService;
 
    @PostMapping("/register")
-   public String register(@RequestBody UserDTO user) {
+   public String register(@RequestBody RegisterData user) {
       return userService.createUser(user);
    }
 

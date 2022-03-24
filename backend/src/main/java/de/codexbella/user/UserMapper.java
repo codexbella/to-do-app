@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-   public UserDocument toUserDocument(UserDTO userDTO) {
+   public UserDocument toUserDocument(RegisterData registerData) {
       UserDocument userDocument = new UserDocument();
-      userDocument.setUsername(userDTO.getUsername());
-      userDocument.setPassword(userDTO.getPassword());
+      userDocument.setUsername(registerData.getUsername());
+      userDocument.setPassword(registerData.getPassword());
       return userDocument;
    }
 }

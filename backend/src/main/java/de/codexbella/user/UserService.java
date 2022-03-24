@@ -13,9 +13,9 @@ public class UserService {
    private final UserMapper userMapper;
    private final PasswordEncoder passwordEncoder;
 
-   public String createUser(UserDTO userDTO) {
-      if (userDTO.getPassword().equals(userDTO.getPasswordAgain())) {
-         UserDocument userDocument = userMapper.toUserDocument(userDTO);
+   public String createUser(RegisterData registerData) {
+      if (registerData.getPassword().equals(registerData.getPasswordAgain())) {
+         UserDocument userDocument = userMapper.toUserDocument(registerData);
          if (userRepository.findByUsernameIgnoreCase(userDocument.getUsername()).isEmpty()) {
             userDocument.setPassword(passwordEncoder.encode(userDocument.getPassword()));
             userRepository.save(userDocument);

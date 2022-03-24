@@ -1,6 +1,7 @@
 package de.codexbella;
 
-import de.codexbella.security.LoginData;
+import de.codexbella.user.LoginData;
+import de.codexbella.user.RegisterData;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -23,38 +24,54 @@ class ToDoControllerIntegrationTest {
    @Test
    void integrationTest() {
       // shouldRegisterANewUser
+      RegisterData registerDataUser1 = new RegisterData();
+      registerDataUser1.setUsername("whoever");
+      registerDataUser1.setPassword("very-safe-password");
+      registerDataUser1.setPasswordAgain("very-safe-password");
+
+      ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", registerDataUser1, String.class);
+
+      assertThat(responseRegister.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertEquals("New user created with username " + registerDataUser1.getUsername(), responseRegister.getBody());
+
+      // shouldNotRegisterANewUserBecausePasswordsDoNotMatch
+      RegisterData registerDataUser2 = new RegisterData();
+      registerDataUser2.setUsername(registerDataUser1.getUsername());
+      registerDataUser2.setPassword("tadada");
+      registerDataUser2.setPasswordAgain("tududu");
+
+      ResponseEntity<String> responseNotRegister1 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
+            String.class);
+
+      assertEquals("Passwords mismatched.", responseNotRegister1.getBody());
+
+      // shouldNotRegisterANewUserBecauseUsernameAlreadyInUse
+      registerDataUser2.setPasswordAgain("tadada");
+
+      ResponseEntity<String> responseNotRegister2 = restTemplate.postForEntity("/api/users/register", registerDataUser2,
+            String.class);
+
+      assertEquals("Username " + registerDataUser2.getUsername() + " already in use.", responseNotRegister2.getBody());
+
+      // shouldLoginUser
       LoginData user1 = new LoginData();
       user1.setUsername("whoever");
       user1.setPassword("very-safe-password");
 
-      ResponseEntity<String> responseRegister = restTemplate.postForEntity("/api/users/register", user1, String.class);
-
-      assertThat(responseRegister.getStatusCode()).isEqualTo(HttpStatus.OK);
-      assertEquals("New user created with username " + user1.getUsername(), responseRegister.getBody());
-
-      // shouldNotRegisterANewUser
-      LoginData otherUser = new LoginData();
-      otherUser.setUsername(user1.getUsername());
-      otherUser.setPassword("extremely-safe-password");
-
-      ResponseEntity<String> responseNotRegister = restTemplate.postForEntity("/api/users/register", user1,
-            String.class);
-
-      assertEquals("Username " + otherUser.getUsername() + " already in use.", responseNotRegister.getBody());
-
-      // shouldLoginUser
       ResponseEntity<String> responseLoginUser1 = restTemplate.postForEntity("/api/users/login", user1, String.class);
 
       assertThat(responseLoginUser1.getStatusCode()).isEqualTo(HttpStatus.OK);
 
       // shouldNotLoginUser
-      otherUser.setPassword("xxx");
+      LoginData user2 = new LoginData();
+      user2.setUsername(registerDataUser1.getUsername());
+      user2.setPassword("xxx");
 
-      ResponseEntity<String> responseNoLogin = restTemplate.postForEntity("/api/users/login", otherUser, String.class);
+      ResponseEntity<String> responseNoLogin = restTemplate.postForEntity("/api/users/login", user2, String.class);
 
       assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
-      otherUser.setPassword("extremely-safe-password");
+      user2.setPassword("extremely-safe-password");
 
       // shouldReturnEmptyListBecauseToDoItemNotInList
       HttpHeaders headerForUser1 = new HttpHeaders();
@@ -81,7 +98,7 @@ class ToDoControllerIntegrationTest {
 
       assertThat(arrayAdding[0].getTitle()).isEqualTo("Einkauf");
       assertThat(arrayAdding[0].getDescription()).isEqualTo("");
-      assertThat(arrayAdding[0].isDone());
+      assertThat(arrayAdding[0].isDone()).isFalse();
       //TODO im folgenden auch auf Array
 
       // shouldReturnMatchingToDoItemsByTitle
