@@ -100,8 +100,7 @@ class ToDoControllerIntegrationTest {
 
       assertThat(arrayAdding[0].getTitle()).isEqualTo("Einkauf");
       assertThat(arrayAdding[0].getDescription()).isEqualTo("");
-      assertThat(arrayAdding[0].isDone()).isFalse();
-      //TODO im folgenden auch auf Array
+      assertFalse(arrayAdding[0].isDone());
 
       // shouldReturnMatchingToDoItemsByTitle
       ToDoItem testToDo2 = new ToDoItem("Fenster putzen");
@@ -119,55 +118,55 @@ class ToDoControllerIntegrationTest {
             HttpMethod.GET, httpEntityUser1Get, ToDoItem[].class);
       assertThat(responseMatching.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseMatching.getBody()).isNotNull();
-      List<ToDoItem> listMatching = Arrays.stream(responseMatching.getBody()).toList();
+      ToDoItem[] arrayMatching = responseMatching.getBody();
 
-      assertThat(listMatching.size()).isEqualTo(2);
-      assertThat(listMatching.get(0).getTitle()).isEqualTo("Einkauf");
-      assertThat(listMatching.get(0).getDescription()).isEqualTo("");
-      assertFalse(listMatching.get(0).isDone());
-      assertThat(listMatching.get(1).getTitle()).isEqualTo("Obi-Einkauf");
-      assertThat(listMatching.get(1).getDescription()).isEqualTo("");
-      assertFalse(listMatching.get(1).isDone());
+      assertThat(arrayMatching.length).isEqualTo(2);
+      assertThat(arrayMatching[0].getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayMatching[0].getDescription()).isEqualTo("");
+      assertFalse(arrayMatching[0].isDone());
+      assertThat(arrayMatching[1].getTitle()).isEqualTo("Obi-Einkauf");
+      assertThat(arrayMatching[1].getDescription()).isEqualTo("");
+      assertFalse(arrayMatching[1].isDone());
 
       // shouldReturnCompleteListOfToDoItems
       ResponseEntity<ToDoItem[]> responseAll = restTemplate.exchange("/api/todoitems/getall", HttpMethod.GET,
             httpEntityUser1Get, ToDoItem[].class);
       assertThat(responseAll.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAll.getBody()).isNotNull();
-      List<ToDoItem> listAll = Arrays.stream(responseAll.getBody()).toList();
+      ToDoItem[] arrayAll = responseAll.getBody();
 
-      assertThat(listAll.size()).isEqualTo(4);
-      assertThat(listAll.get(0).getTitle()).isEqualTo("Einkauf");
-      assertThat(listAll.get(1).getTitle()).isEqualTo("Fenster putzen");
-      assertThat(listAll.get(2).getTitle()).isEqualTo("Impfung");
-      assertThat(listAll.get(3).getTitle()).isEqualTo("Obi-Einkauf");
+      assertThat(arrayAll.length).isEqualTo(4);
+      assertThat(arrayAll[0].getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayAll[1].getTitle()).isEqualTo("Fenster putzen");
+      assertThat(arrayAll[2].getTitle()).isEqualTo("Impfung");
+      assertThat(arrayAll[3].getTitle()).isEqualTo("Obi-Einkauf");
 
       // shouldSetToDoItemAsDone
       testToDo3.setDone(true);
-      testToDo3.setId(listAll.get(2).getId());
+      testToDo3.setId(arrayAll[2].getId());
 
       ResponseEntity<ToDoItem[]> responseDone = restTemplate.exchange("/api/todoitems/" + testToDo3.getId(),
             HttpMethod.PUT, new HttpEntity<>(testToDo3, headerForUser1), ToDoItem[].class);
       assertThat(responseDone.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseDone.getBody()).isNotNull();
-      List<ToDoItem> listDone = Arrays.stream(responseDone.getBody()).toList();
+      ToDoItem[] arrayDone = responseDone.getBody();
 
-      assertThat(listDone.size()).isEqualTo(4);
-      assertThat(listDone.get(3).getTitle()).isEqualTo("Impfung");
-      assertThat(listDone.get(3).getDescription()).isEqualTo("");
-      assertTrue(listDone.get(3).isDone());
+      assertThat(arrayDone.length).isEqualTo(4);
+      assertThat(arrayDone[3].getTitle()).isEqualTo("Impfung");
+      assertThat(arrayDone[3].getDescription()).isEqualTo("");
+      assertTrue(arrayDone[3].isDone());
 
       // shouldReturnAllToDoItemsThatAreNotDone
       ResponseEntity<ToDoItem[]> responseAllNotDone = restTemplate.exchange("/api/todoitems/getallnotdone",
             HttpMethod.GET, httpEntityUser1Get, ToDoItem[].class);
       assertThat(responseAllNotDone.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAllNotDone.getBody()).isNotNull();
-      List<ToDoItem> listAllNotDone = Arrays.stream(responseAllNotDone.getBody()).toList();
+      ToDoItem[] arrayAllNotDone = responseAllNotDone.getBody();
 
-      assertThat(listAllNotDone.size()).isEqualTo(3);
-      assertThat(listAllNotDone.get(0).getTitle()).isEqualTo("Einkauf");
-      assertThat(listAllNotDone.get(1).getTitle()).isEqualTo("Fenster putzen");
-      assertThat(listAllNotDone.get(2).getTitle()).isEqualTo("Obi-Einkauf");
+      assertThat(arrayAllNotDone.length).isEqualTo(3);
+      assertThat(arrayAllNotDone[0].getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayAllNotDone[1].getTitle()).isEqualTo("Fenster putzen");
+      assertThat(arrayAllNotDone[2].getTitle()).isEqualTo("Obi-Einkauf");
 
       // shouldSetToDoItemAsNotDone
       testToDo3.setDone(false);
@@ -176,21 +175,21 @@ class ToDoControllerIntegrationTest {
             HttpMethod.PUT, new HttpEntity<>(testToDo3, headerForUser1), ToDoItem[].class);
       assertThat(responseNotDone.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseNotDone.getBody()).isNotNull();
-      List<ToDoItem> listNotDone = Arrays.stream(responseNotDone.getBody()).toList();
+      ToDoItem[] arrayNotDone = responseNotDone.getBody();
 
-      assertThat(listNotDone.size()).isEqualTo(4);
-      assertThat(listNotDone.get(2).getTitle()).isEqualTo("Impfung");
-      assertThat(listNotDone.get(2).getDescription()).isEqualTo("");
-      assertThat(listNotDone.get(2).isDone()).isEqualTo(false);
+      assertThat(arrayNotDone.length).isEqualTo(4);
+      assertThat(arrayNotDone[2].getTitle()).isEqualTo("Impfung");
+      assertThat(arrayNotDone[2].getDescription()).isEqualTo("");
+      assertThat(arrayNotDone[2].isDone()).isEqualTo(false);
 
       // shouldNotAddNewToDoItemBecauseAlreadyInList
       ResponseEntity<ToDoItem[]> responseNoDoubleAdding = restTemplate.exchange("/api/todoitems/additem",
             HttpMethod.POST, new HttpEntity<>(testToDo1, headerForUser1), ToDoItem[].class);
       assertThat(responseNoDoubleAdding.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseNoDoubleAdding.getBody()).isNotNull();
-      List<ToDoItem> listNoDoubleAdding = Arrays.stream(responseNotDone.getBody()).toList();
+      ToDoItem[] arrayNoDoubleAdding = responseNotDone.getBody();
 
-      assertThat(listNoDoubleAdding.size()).isEqualTo(4);
+      assertThat(arrayNoDoubleAdding.length).isEqualTo(4);
 
       // shouldNotAddNewToDoItemBecauseDuplicateTitle
       ToDoItem testToDoX = new ToDoItem("einKAUf");
@@ -198,10 +197,10 @@ class ToDoControllerIntegrationTest {
             HttpMethod.POST, new HttpEntity<>(testToDoX, headerForUser1), ToDoItem[].class);
       assertThat(responseNoDoubleTitleAdding.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseNoDoubleTitleAdding.getBody()).isNotNull();
-      List<ToDoItem> listNoDoubleTitleAdding = Arrays.stream(responseNotDone.getBody()).toList();
+      ToDoItem[] arrayNoDoubleTitleAdding = responseNotDone.getBody();
 
-      assertThat(listNoDoubleTitleAdding.size()).isEqualTo(4);
-      assertThat(listNoDoubleTitleAdding.get(0).getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayNoDoubleTitleAdding.length).isEqualTo(4);
+      assertThat(arrayNoDoubleTitleAdding[0].getTitle()).isEqualTo("Einkauf");
 
       // shouldChangeItemTitle
       ToDoItem testToDo3changed1 = new ToDoItem("Masern-Impfung", testToDo3.getDescription(), testToDo3.isDone());
@@ -212,9 +211,9 @@ class ToDoControllerIntegrationTest {
                   new HttpEntity<>(testToDo3changed1, headerForUser1), ToDoItem[].class);
       assertThat(responseAfterTitleChange.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAfterTitleChange.getBody()).isNotNull();
-      List<ToDoItem> listAfterTitleChange = Arrays.stream(responseAfterTitleChange.getBody()).toList();
+      ToDoItem[] arrayAfterTitleChange = responseAfterTitleChange.getBody();
 
-      assertThat(listAfterTitleChange.get(2).getTitle()).isEqualTo("Masern-Impfung");
+      assertThat(arrayAfterTitleChange[2].getTitle()).isEqualTo("Masern-Impfung");
 
       // shouldNotChangeItemTitleBecauseDuplicateTitle
       ToDoItem testToDo3changed2 = new ToDoItem("fenster PUtzen", testToDo3.getDescription(), testToDo3.isDone());
@@ -225,9 +224,9 @@ class ToDoControllerIntegrationTest {
                   new HttpEntity<>(testToDo3changed2, headerForUser1), ToDoItem[].class);
       assertThat(responseAfterNoTitleChange.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAfterNoTitleChange.getBody()).isNotNull();
-      List<ToDoItem> listAfterNoTitleChange = Arrays.stream(responseAfterNoTitleChange.getBody()).toList();
+      ToDoItem[] arrayAfterNoTitleChange = responseAfterNoTitleChange.getBody();
 
-      assertThat(listAfterNoTitleChange.get(2).getTitle()).isEqualTo("Masern-Impfung");
+      assertThat(arrayAfterNoTitleChange[2].getTitle()).isEqualTo("Masern-Impfung");
 
       // shouldChangeItemDescription
       ToDoItem testToDo3changed3 = new ToDoItem(testToDo3.getTitle(), "in 6 Monaten", testToDo3.isDone());
@@ -238,9 +237,9 @@ class ToDoControllerIntegrationTest {
                   new HttpEntity<>(testToDo3changed3, headerForUser1), ToDoItem[].class);
       assertThat(responseAfterDescriptionChange.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAfterDescriptionChange.getBody()).isNotNull();
-      List<ToDoItem> listAfterDescriptionChange = Arrays.stream(responseAfterDescriptionChange.getBody()).toList();
+      ToDoItem[] arrayAfterDescriptionChange = responseAfterDescriptionChange.getBody();
 
-      assertThat(listAfterDescriptionChange.get(2).getDescription()).isEqualTo("in 6 Monaten");
+      assertThat(arrayAfterDescriptionChange[2].getDescription()).isEqualTo("in 6 Monaten");
 
       // shouldReturnFalseBecauseNoSuchItemToSetDescriptionOf
       ToDoItem itemNotInList = new ToDoItem("ladidadida");
@@ -252,25 +251,25 @@ class ToDoControllerIntegrationTest {
                   new HttpEntity<>(itemNotInList, headerForUser1), ToDoItem[].class);
       assertThat(responseAfterNoDescriptionChange.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAfterNoDescriptionChange.getBody()).isNotNull();
-      List<ToDoItem> listAfterNoDescriptionChange = Arrays.stream(responseAfterNoDescriptionChange.getBody()).toList();
+      ToDoItem[] arrayAfterNoDescriptionChange = responseAfterNoDescriptionChange.getBody();
 
-      assertThat(listAfterNoDescriptionChange.size()).isEqualTo(4);
-      assertThat(listAfterNoDescriptionChange.get(0).getTitle()).isEqualTo("Einkauf");
-      assertThat(listAfterNoDescriptionChange.get(1).getTitle()).isEqualTo("Fenster putzen");
-      assertThat(listAfterNoDescriptionChange.get(2).getTitle()).isEqualTo("Impfung");
-      assertThat(listAfterNoDescriptionChange.get(3).getTitle()).isEqualTo("Obi-Einkauf");
+      assertThat(arrayAfterNoDescriptionChange.length).isEqualTo(4);
+      assertThat(arrayAfterNoDescriptionChange[0].getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayAfterNoDescriptionChange[1].getTitle()).isEqualTo("Fenster putzen");
+      assertThat(arrayAfterNoDescriptionChange[2].getTitle()).isEqualTo("Impfung");
+      assertThat(arrayAfterNoDescriptionChange[3].getTitle()).isEqualTo("Obi-Einkauf");
 
       // shouldDeleteItem
       ResponseEntity<ToDoItem[]> responseAfterDelete = restTemplate.exchange("/api/todoitems/" + testToDo3.getId(),
             HttpMethod.DELETE, new HttpEntity<>(headerForUser1), ToDoItem[].class);
       assertThat(responseAfterDelete.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAfterDelete.getBody()).isNotNull();
-      List<ToDoItem> listAfterDelete = Arrays.stream(responseAfterDelete.getBody()).toList();
+      ToDoItem[] arrayAfterDelete = responseAfterDelete.getBody();
 
-      assertThat(listAfterDelete.size()).isEqualTo(3);
-      assertThat(listAfterDelete.get(0).getTitle()).isEqualTo("Einkauf");
-      assertThat(listAfterDelete.get(1).getTitle()).isEqualTo("Fenster putzen");
-      assertThat(listAfterDelete.get(2).getTitle()).isEqualTo("Obi-Einkauf");
+      assertThat(arrayAfterDelete.length).isEqualTo(3);
+      assertThat(arrayAfterDelete[0].getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayAfterDelete[1].getTitle()).isEqualTo("Fenster putzen");
+      assertThat(arrayAfterDelete[2].getTitle()).isEqualTo("Obi-Einkauf");
 
       // shouldReturnEmptyListBecauseToDoItemNotInList
       ResponseEntity<ToDoItem[]> responseGetEmptyList2 = restTemplate.exchange("/api/todoitems/" + testToDo3.getId(),
