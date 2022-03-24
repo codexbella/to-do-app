@@ -13,7 +13,6 @@ export default function ToDoList() {
     const { t } = useTranslation();
     const nav = useNavigate();
     
-    
     const getAll = useCallback(() => {
         fetch(`${process.env.REACT_APP_BASE_URL}/todoitems/getall`, {
             method: 'GET',

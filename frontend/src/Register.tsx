@@ -37,7 +37,7 @@ export default function Register() {
             }
             throw new Error(`${t('new-user-error')}, ${t('error')}: ${response.status}`)
          })
-         .then(response => {nav('/login')})
+         .then(() => {nav('/login')})
       } else {
          setError(`${t('password-not-equal-error')}`)
          throw new Error(t('password-not-equal-error'))

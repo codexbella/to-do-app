@@ -1,4 +1,4 @@
-package de.codexbella.user;
+package de.codexbella.security;
 
 import lombok.Data;
 

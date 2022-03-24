@@ -1,6 +1,6 @@
 package de.codexbella;
 
-import de.codexbella.user.LoginData;
+import de.codexbella.security.LoginData;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -77,11 +77,12 @@ class ToDoControllerIntegrationTest {
 
       assertThat(responseAdding.getStatusCode()).isEqualTo(HttpStatus.OK);
       assertThat(responseAdding.getBody()).isNotNull();
-      List<ToDoItem> listAdding = Arrays.stream(responseAdding.getBody()).toList();
+      ToDoItem[] arrayAdding = responseAdding.getBody();
 
-      assertThat(listAdding.get(0).getTitle()).isEqualTo("Einkauf");
-      assertThat(listAdding.get(0).getDescription()).isEqualTo("");
-      assertFalse(listAdding.get(0).isDone());
+      assertThat(arrayAdding[0].getTitle()).isEqualTo("Einkauf");
+      assertThat(arrayAdding[0].getDescription()).isEqualTo("");
+      assertThat(arrayAdding[0].isDone());
+      //TODO im folgenden auch auf Array
 
       // shouldReturnMatchingToDoItemsByTitle
       ToDoItem testToDo2 = new ToDoItem("Fenster putzen");

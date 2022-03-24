@@ -1,11 +1,12 @@
 package de.codexbella.user;
 
+import de.codexbella.security.JwtUtils;
+import de.codexbella.security.LoginData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +22,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
    private final UserService userService;
-   private final PasswordEncoder passwordEncoder;
    private final AuthenticationManager authenticationManager;
-   private final JwtService jwtService;
+   private final JwtUtils jwtService;
 
    @PostMapping("/register")
-   public String createUser(@RequestBody UserDocument user) {
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
+   public String register(@RequestBody UserDTO user) {
       return userService.createUser(user);
    }
 
