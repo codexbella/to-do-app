@@ -73,8 +73,6 @@ class ToDoControllerIntegrationTest {
 
       assertThat(responseNoLogin.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
-      user2.setPassword("extremely-safe-password");
-
       // shouldReturnEmptyListBecauseToDoItemNotInList
       HttpHeaders headerForUser1 = new HttpHeaders();
       headerForUser1.set("Authorization", "Bearer" + responseLoginUser1.getBody());
@@ -94,7 +92,7 @@ class ToDoControllerIntegrationTest {
       ResponseEntity<ToDoItem[]> responseAdding = restTemplate.postForEntity("/api/todoitems/additem",
             new HttpEntity<>(testToDo1, headerForUser1), ToDoItem[].class);
 
-      assertThat(responseAdding.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseAdding.getStatusCode()).isEqualTo(HttpStatus.CREATED);
       assertThat(responseAdding.getBody()).isNotNull();
       ToDoItem[] arrayAdding = responseAdding.getBody();
 
@@ -185,7 +183,7 @@ class ToDoControllerIntegrationTest {
       // shouldNotAddNewToDoItemBecauseAlreadyInList
       ResponseEntity<ToDoItem[]> responseNoDoubleAdding = restTemplate.exchange("/api/todoitems/additem",
             HttpMethod.POST, new HttpEntity<>(testToDo1, headerForUser1), ToDoItem[].class);
-      assertThat(responseNoDoubleAdding.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseNoDoubleAdding.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertThat(responseNoDoubleAdding.getBody()).isNotNull();
       ToDoItem[] arrayNoDoubleAdding = responseNotDone.getBody();
 
@@ -195,7 +193,7 @@ class ToDoControllerIntegrationTest {
       ToDoItem testToDoX = new ToDoItem("einKAUf");
       ResponseEntity<ToDoItem[]> responseNoDoubleTitleAdding = restTemplate.exchange("/api/todoitems/additem",
             HttpMethod.POST, new HttpEntity<>(testToDoX, headerForUser1), ToDoItem[].class);
-      assertThat(responseNoDoubleTitleAdding.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseNoDoubleTitleAdding.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertThat(responseNoDoubleTitleAdding.getBody()).isNotNull();
       ToDoItem[] arrayNoDoubleTitleAdding = responseNotDone.getBody();
 
@@ -241,7 +239,7 @@ class ToDoControllerIntegrationTest {
 
       assertThat(arrayAfterDescriptionChange[2].getDescription()).isEqualTo("in 6 Monaten");
 
-      // shouldReturnFalseBecauseNoSuchItemToSetDescriptionOf
+      // shouldNotChangeBecauseNoSuchItemToSetDescriptionOf
       ToDoItem itemNotInList = new ToDoItem("ladidadida");
       itemNotInList.setId(UUID.randomUUID().toString());
       itemNotInList.setDescription("will never make it into databank");
@@ -249,7 +247,7 @@ class ToDoControllerIntegrationTest {
       ResponseEntity<ToDoItem[]> responseAfterNoDescriptionChange =
             restTemplate.exchange("/api/todoitems/" + itemNotInList.getId(), HttpMethod.PUT,
                   new HttpEntity<>(itemNotInList, headerForUser1), ToDoItem[].class);
-      assertThat(responseAfterNoDescriptionChange.getStatusCode()).isEqualTo(HttpStatus.OK);
+      assertThat(responseAfterNoDescriptionChange.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
       assertThat(responseAfterNoDescriptionChange.getBody()).isNotNull();
       ToDoItem[] arrayAfterNoDescriptionChange = responseAfterNoDescriptionChange.getBody();
 

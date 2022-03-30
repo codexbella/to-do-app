@@ -39,8 +39,10 @@ public class ToDoService {
       if (toDoRepository.findByTitleIgnoreCase(toDoItem.getTitle()).isEmpty()) {
          toDoItem.setUsername(username);
          toDoRepository.save(toDoItem);
+         return getToDoList(username);
+      } else {
+         throw new IllegalStateException("Item title " + toDoItem.getTitle() + " already exists.");
       }
-      return getToDoList(username);
    }
 
    public List<ToDoItem> changeItem(ToDoItem toDoItemChanged, String username) {
@@ -53,8 +55,9 @@ public class ToDoService {
          toDoItem.setDescription(toDoItemChanged.getDescription());
          toDoItem.setDone(toDoItemChanged.isDone());
          toDoRepository.save(toDoItem);
+         return getToDoList(username);
       }
-      return getToDoList(username);
+      throw new IllegalStateException("Item title " + toDoItemChanged.getTitle() + " already exists.");
    }
 
    public List<ToDoItem> deleteItem(String id, String username) {

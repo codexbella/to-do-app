@@ -1,9 +1,9 @@
 package de.codexbella;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.security.Principal;
 import java.util.Optional;
 import java.util.List;
 
@@ -25,7 +25,7 @@ class ToDoServiceTest {
    }
 
    @Test
-   void shouldAddNewToDoItemWithMock() {
+   void shouldAddNewToDoItemWithMock(){
       ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
       ToDoService testToDoService = new ToDoService(mockToDoRepo);
       String username = "whoever";
@@ -38,7 +38,7 @@ class ToDoServiceTest {
    }
 
    @Test
-   void shouldNotAddItemWithMock() {
+   void shouldNotAddItemWithMock(){
       ToDoRepository mockToDoRepo = Mockito.mock(ToDoRepository.class);
       ToDoService testToDoService = new ToDoService(mockToDoRepo);
       String username = "whoever";
@@ -59,10 +59,8 @@ class ToDoServiceTest {
       when(mockToDoRepo.findAll()).thenReturn(List.of(testToDo1, testToDo2, testToDo3));
       when(mockToDoRepo.findByTitleIgnoreCase("imPFung")).thenReturn(Optional.of(testToDo3));
 
-      testToDoService.addItem(testToDoExtra, username);
+      Assertions.assertThrows(IllegalStateException.class, () -> testToDoService.addItem(testToDoExtra, username));
 
-      verify(mockToDoRepo).findAllByUsernameAndDone(username, true);
-      verify(mockToDoRepo).findAllByUsernameAndDone(username, false);
       verify(mockToDoRepo).findByTitleIgnoreCase("imPFung");
       verify(mockToDoRepo, Mockito.never()).save(any());
       verifyNoMoreInteractions(mockToDoRepo);
