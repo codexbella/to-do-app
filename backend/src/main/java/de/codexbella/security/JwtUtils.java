@@ -1,4 +1,4 @@
-package de.codexbella.user;
+package de.codexbella.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,10 +12,10 @@ import java.time.Instant;
 import java.util.Map;
 
 @Service
-public class JwtService {
+public class JwtUtils {
    private final String secret;
 
-   public JwtService(@Value("${app.jwt.secret}") String secret) {
+   public JwtUtils(@Value("${app.jwt.secret}") String secret) {
       this.secret = secret;
    }
 

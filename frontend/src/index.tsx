@@ -7,6 +7,7 @@ import './i18n';
 import ToDoList from "./ToDoList";
 import ToDoDetail from "./ToDoDetail";
 import Login from "./Login";
+import Register from "./Register";
 
 ReactDOM.render(
    <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.render(
             <Routes>
                <Route path='/' element={<App/>}>
                   <Route path='login' element={<Login/>}/>
+                  <Route path='register' element={<Register/>}/>
                   <Route path='todoitems' element={<ToDoList/>}/>
                   <Route path='todoitems/:id' element={<ToDoDetail/>}/>
                   <Route path='*' element={<ToDoList/>}/>

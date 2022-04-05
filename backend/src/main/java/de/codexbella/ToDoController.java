@@ -1,6 +1,8 @@
 package de.codexbella;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -26,13 +28,25 @@ public class ToDoController {
     }
 
     @PostMapping("/additem")
-    public List<ToDoItem> addToDoItem(@RequestBody ToDoItem toDoItemToAdd, Principal principal) {
-        return toDoService.addItem(toDoItemToAdd, principal.getName());
+    public ResponseEntity<List<ToDoItem>> addToDoItem(@RequestBody ToDoItem toDoItemToAdd, Principal principal) {
+        try {
+            List<ToDoItem> toDoList = toDoService.addItem(toDoItemToAdd, principal.getName());
+            return new ResponseEntity<>(toDoList, HttpStatus.CREATED);
+        } catch (Exception e) {
+            List<ToDoItem> toDoList = toDoService.getToDoList(principal.getName());
+            return new ResponseEntity<>(toDoList, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
-    public List<ToDoItem> changeItem(@RequestBody ToDoItem toDoItemChanged, Principal principal) {
-        return toDoService.changeItem(toDoItemChanged, principal.getName());
+    public ResponseEntity<List<ToDoItem>> changeItem(@RequestBody ToDoItem toDoItemChanged, Principal principal) {
+        try {
+            List<ToDoItem> toDoList = toDoService.changeItem(toDoItemChanged, principal.getName());
+            return new ResponseEntity<>(toDoList, HttpStatus.OK);
+        } catch (Exception e) {
+            List<ToDoItem> toDoList = toDoService.getToDoList(principal.getName());
+            return new ResponseEntity<>(toDoList, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")

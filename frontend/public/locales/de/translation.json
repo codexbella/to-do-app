@@ -1,6 +1,7 @@
 {
   "no-error": "Kein Fehler",
-  "error": "Fehlercode",
+  "error-code": "Fehlercode",
+  "error": "Fehler",
   "get-all-error": "Fehler beim Laden aller Aufgaben",
   "get-notdone-error": "Fehler beim Laden aller nicht abgehakten Aufgaben",
   "get-matching-error": "Fehler beim Laden der gesuchten Aufgaben",
@@ -20,7 +21,12 @@
   "link-all-todos": "Zurück zur Liste",
   "username": "Benutzername",
   "password": "Passwort",
-  "new-user-error": "Fehler beim Anlegen des neuen Benutzers.",
+  "password-again": "Password wiederholen",
+  "password-not-equal-error": "Eingegebene Passwörter sind nicht gleich",
+  "new-user-error": "Fehler beim Anlegen des neuen Benutzers",
+  "login-error": "Fehler beim Login",
   "login": "Login",
-  "logout": "Logout"
+  "logout": "Logout",
+  "try-logout-login": "bitte logge dich aus und erneut ein",
+  "register": "Registrieren"
 }

@@ -4,9 +4,6 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Objects;
-import java.util.UUID;
-
 @Document(collection = "todoitems")
 @Data
 public class ToDoItem {
@@ -68,6 +65,7 @@ public class ToDoItem {
    public String toString() {
       return "ToDoItem{" +
             "id='" + id + '\'' +
+            ", username='" + username + '\'' +
             ", title='" + title + '\'' +
             ", description='" + description + '\'' +
             ", done=" + done +

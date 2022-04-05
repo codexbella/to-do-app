@@ -1,4 +1,4 @@
-package de.codexbella.user;
+package de.codexbella.security;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-   private final JwtService jwtService;
+   private final JwtUtils jwtUtils;
 
    @Override
    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
       if (tokenFromRequest != null && !tokenFromRequest.isBlank()) {
          try {
-            Claims claims = jwtService.extractClaims(tokenFromRequest);
+            Claims claims = jwtUtils.extractClaims(tokenFromRequest);
 
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                   claims.getSubject(),
@@ -37,6 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             );
             SecurityContextHolder.getContext().setAuthentication(token);
          } catch (Exception e) {
+            response.setStatus(401);
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "invalid token");
          }
       }
