@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ToDoControllerIntegrationTest {
    @Autowired
    private TestRestTemplate restTemplate;
-   /*
+
    @Test
    void integrationTest() {
       // shouldRegisterANewUser
@@ -85,7 +85,7 @@ class ToDoControllerIntegrationTest {
 
       // shouldAddNewToDoItem
       ToDoItem testToDo1 = new ToDoItem("Einkauf");
-      
+
       ResponseEntity<ToDoItem[]> responseAdding = restTemplate.postForEntity("/api/todoitems/additem",
             new HttpEntity<>(testToDo1, headerForUser1), ToDoItem[].class);
 
@@ -274,5 +274,4 @@ class ToDoControllerIntegrationTest {
       assertThat(responseGetEmptyList2.getBody()).isNotNull();
       assertThat(Arrays.stream(responseGetEmptyList2.getBody()).toList()).isEqualTo(List.of());
    }
-   */
 }
